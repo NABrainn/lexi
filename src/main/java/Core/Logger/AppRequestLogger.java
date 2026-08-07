@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 public record AppRequestLogger(@NotNull Logger logger) implements RequestLogger {
 
     @Override
-    public void handle(@NotNull Context ctx, @NotNull Float executionTimeMs) throws Exception {
+    public void handle(@NotNull Context ctx, @NotNull Float executionTimeMs) {
         var logger = LoggerFactory.getLogger(AppRequestLogger.class);
-        logger.info(ctx.body(),  executionTimeMs);
+        logger.info(ctx.body(), executionTimeMs);
     }
 
     public static AppRequestLogger of(@NotNull Logger logger) {
