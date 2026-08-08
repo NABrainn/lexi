@@ -12,6 +12,7 @@ public class Application {
                     RequestLogging.configure(config.requestLogger);
                     Startup.configure(config.startup);
                     Routes.configure(config.routes);
+                    StaticFiles.configure(config.staticFiles);
                 })
                 .start(9000);
     }
