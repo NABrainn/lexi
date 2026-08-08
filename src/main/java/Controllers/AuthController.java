@@ -6,8 +6,6 @@ import Data.Result.ValidationSuccess;
 import Service.Validator;
 import io.javalin.http.Context;
 
-import java.util.Map;
-
 public class AuthController {
     public static void register(Context ctx) {
         var formLogin = ctx.formParam("login");

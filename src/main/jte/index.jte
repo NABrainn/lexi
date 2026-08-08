@@ -7,5 +7,5 @@
             <input type="password" name="password" id="password">
             <button type="submit">Submit</button>
         </form>
-`
+    `
 )
