@@ -6,6 +6,8 @@ import Data.Result.ValidationSuccess;
 import Service.Validator;
 import io.javalin.http.Context;
 
+import java.util.Map;
+
 public class AuthController {
     public static void register(Context ctx) {
         var formLogin = ctx.formParam("login");
@@ -14,7 +16,9 @@ public class AuthController {
         var result = Validator.validate(authRequest);
         switch (result) {
             case ValidationFailure(var errors) -> {
-                ctx.render("pages/register.jte");
+                ctx.render("pages/register.jte", Map.of(
+                        "errors", errors
+                ));
             }
             case ValidationSuccess(var _) -> {
                 ctx.render("pages/login.jte");
