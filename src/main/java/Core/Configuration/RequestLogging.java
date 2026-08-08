@@ -1,14 +1,14 @@
 package Core.Configuration;
 
 import Core.Application;
-import Core.Logger.AppRequestLogger;
+import Core.Logger.ApplicationRequestLogger;
 import io.javalin.config.RequestLoggerConfig;
 import org.slf4j.LoggerFactory;
 
 public class RequestLogging {
     public static void configure(RequestLoggerConfig config) {
         var logger = LoggerFactory.getLogger(Application.class);
-        var appLogger = AppRequestLogger.of(logger);
+        var appLogger = ApplicationRequestLogger.of(logger);
         config.http(appLogger);
     }
 }
