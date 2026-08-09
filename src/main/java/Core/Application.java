@@ -11,8 +11,8 @@ public class Application {
                 TemplateRendering.configure(config);
                 RequestLogging.configure(config.requestLogger);
                 Startup.configure(config.startup);
-                Routes.configure(config.routes);
                 StaticFiles.configure(config.staticFiles);
+                Routes.configure(config.routes);
             })
             .start(9000);
     }

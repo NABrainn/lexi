@@ -1,7 +1,7 @@
-package Controllers;
+package Controller;
 
 import Data.Auth.Request.AuthRequest;
-import Data.Auth.Result.UserFoundError;
+import Data.Auth.Result.UserAlreadyExistsError;
 import Data.Result.Failure;
 import Data.Result.Success;
 import DataValidator.Data.Result.ValidationFailure;
@@ -21,25 +21,15 @@ public class AuthController {
 
         switch (result) {
             case ValidationFailure(var errors) -> {
-                var firstMessage = errors
-                        .getMessages("login")
-                        .getFirst();
                 ctx.render("pages/register.jte", Map.of(
                         "errors", errors
                 ));
             }
-            case ValidationSuccess(var _) -> {
-                var registerResult = AuthService.register(authRequest);
+            case ValidationSuccess(var validAuthRequest) -> {
+                var registerResult = AuthService.register(validAuthRequest);
 
                 switch (registerResult) {
-                    case Failure(var error) -> {
-
-                        switch (error) {
-                            case UserFoundError userFoundError -> {
-                            }
-                        }
-
-                    }
+                    case Failure(UserAlreadyExistsError(var message)) -> IO.println(message);
                     case Success(var _) -> {
                         ctx.render("pages/login.jte");
                     }

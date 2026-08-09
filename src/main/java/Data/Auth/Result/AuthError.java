@@ -1,4 +1,4 @@
 package Data.Auth.Result;
 
-public sealed interface AuthError permits UserFoundError {
+public sealed interface AuthError permits UserAlreadyExistsError {
 }
