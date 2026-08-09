@@ -14,9 +14,8 @@ public class TemplateRendering {
 
     public static final Logger logger = LoggerFactory.getLogger(TemplateRendering.class);
 
-    public static void configure(JavalinConfig config) {
-        final var ENV = Dotenv.load();
-        var mode = ENV.get("MODE");
+    public static void configure(Dotenv dotenv, JavalinConfig config) {
+        var mode = dotenv.get("MODE");
         var templateEngine = switch(mode) {
             case "DEV" -> JavalinJte.Companion.directoryTemplateEngine();
             case "PROD" -> TemplateEngine.createPrecompiled(Path.of("target/jte-classes"), ContentType.Html);
