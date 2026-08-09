@@ -1,17 +1,18 @@
 package Data.Auth.Request;
 
-import Data.Core.Data;
-import Data.Rules.Required;
-import Data.Rules.Rule;
+import DataValidator.Data.Rules.Required;
+import DataValidator.Data.Rules.Rule;
+import DataValidator.Data.Core.Data;
 
+import java.util.List;
 import java.util.Map;
 
 public record AuthRequest(String login, String password) implements Data {
     @Override
-    public Map<String, Rule<?>> rules() {
+    public Map<String, List<Rule<?>>> rules() {
         return Map.of(
-                "login", Required.of(),
-                "password", Required.of()
+                "login", List.of(Required.of()),
+                "password", List.of(Required.of())
         );
     }
 
