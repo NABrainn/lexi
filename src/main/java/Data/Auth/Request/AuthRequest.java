@@ -1,4 +1,4 @@
-package Data.Auth;
+package Data.Auth.Request;
 
 import Data.Core.Data;
 import Data.Rules.Required;
