@@ -1,6 +1,6 @@
 package Core.Configuration;
 
-import Controllers.AuthController;
+import Controller.AuthController;
 import io.javalin.config.RoutesConfig;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
