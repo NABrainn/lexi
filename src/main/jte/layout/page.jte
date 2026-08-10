@@ -26,7 +26,7 @@
         <title>Lexi</title>
     </head>
     <body>
-        <main class="container">
+        <main>
             ${content}
         </main>
     </body>
