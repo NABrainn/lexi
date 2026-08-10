@@ -1,0 +1,6 @@
+@layer auth {
+    fieldset {
+        display: flex;
+        flex-direction: column;
+    }
+}

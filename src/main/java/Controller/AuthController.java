@@ -10,9 +10,19 @@ import DataValidator.Service.Validator;
 import Service.AuthService;
 import io.javalin.http.Context;
 
+import java.util.List;
 import java.util.Map;
 
 public class AuthController {
+
+    public static void registerPage(Context ctx) {
+        var styles = List.of("pages/auth.css");
+        var params = Map.of(
+                "styles", styles
+        );
+        ctx.render("pages/register.jte", params);
+    }
+
     public static void register(Context ctx) {
         var formLogin = ctx.formParam("login");
         var formPassword = ctx.formParam("password");
@@ -21,9 +31,10 @@ public class AuthController {
 
         switch (result) {
             case ValidationFailure(var errors) -> {
-                ctx.render("pages/register.jte", Map.of(
+                var params = Map.of(
                         "errors", errors
-                ));
+                );
+                ctx.render("partials/register-form.jte", params);
             }
             case ValidationSuccess(var validAuthRequest) -> {
                 var registerResult = AuthService.register(validAuthRequest);

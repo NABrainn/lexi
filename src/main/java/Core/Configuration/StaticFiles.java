@@ -39,14 +39,14 @@ public class StaticFiles {
         };
 
         config.add(staticFiles -> {
-            staticFiles.hostedPath = "/css";
-            staticFiles.directory = baseDirectory + "/css";
+            staticFiles.hostedPath = "/public/css";
+            staticFiles.directory = baseDirectory + "/public/css";
             staticFiles.location = location;
         });
 
         config.add(staticFiles -> {
-            staticFiles.hostedPath = "/js";
-            staticFiles.directory = baseDirectory + "/js";
+            staticFiles.hostedPath = "/public/js";
+            staticFiles.directory = baseDirectory + "/public/js";
             staticFiles.location = location;
         });
     }

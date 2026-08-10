@@ -13,7 +13,7 @@ public class Routes {
                post("/register", AuthController::register);
            });
            path("/", () -> {
-               get("/", ctx -> ctx.render("pages/register.jte"));
+               get("/", AuthController::registerPage);
            });
         });
     }
