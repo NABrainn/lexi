@@ -24,6 +24,7 @@ public record AuthData(String login, String password) implements Data {
         return AuthCommand.of(login, password);
     }
 
+
     public static AuthData of(String login, String password) {
         return new AuthData(login, password);
     }
