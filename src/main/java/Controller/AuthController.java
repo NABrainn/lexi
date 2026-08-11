@@ -37,8 +37,8 @@ public class AuthController {
                 ctx.render("partials/register-form.jte", params);
             }
             case ValidationSuccess(var authValidForm) -> {
-                var operation = authValidForm.mapToOperation();
-                var registerResult = AuthService.register((RegisterCommand) operation);
+                var command = (RegisterCommand) authValidForm.mapToOperation();
+                var registerResult = AuthService.register(command);
 
                 switch (registerResult) {
                     case Failure(UserAlreadyExistsError(var message)) -> IO.println(message);
