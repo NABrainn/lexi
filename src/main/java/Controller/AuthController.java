@@ -7,6 +7,7 @@ import Data.Result.Success;
 import DataValidator.Data.Result.ValidationFailure;
 import DataValidator.Data.Result.ValidationSuccess;
 import DataValidator.Service.Validator;
+import Helpers.FormBinder;
 import Service.AuthService;
 import io.javalin.http.Context;
 
@@ -24,9 +25,7 @@ public class AuthController {
     }
 
     public static void register(Context ctx) {
-        var formLogin = ctx.formParam("login");
-        var formPassword = ctx.formParam("password");
-        var authRequest = AuthRequest.of(formLogin, formPassword);
+        var authRequest = FormBinder.bind(ctx, AuthRequest.class);
         var result = Validator.validate(authRequest);
 
         switch (result) {
