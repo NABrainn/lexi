@@ -1,6 +1,6 @@
 package Controller;
 
-import Data.Auth.Request.AuthRequest;
+import Data.Auth.Request.AuthData;
 import Data.Auth.Result.UserAlreadyExistsError;
 import Data.Result.Failure;
 import Data.Result.Success;
@@ -25,8 +25,8 @@ public class AuthController {
     }
 
     public static void register(Context ctx) {
-        var authRequest = FormBinder.bind(ctx, AuthRequest.class);
-        var result = Validator.validate(authRequest);
+        var authForm = FormBinder.bind(ctx, AuthData.class);
+        var result = Validator.validate(authForm);
 
         switch (result) {
             case ValidationFailure(var errors) -> {
@@ -35,8 +35,9 @@ public class AuthController {
                 );
                 ctx.render("partials/register-form.jte", params);
             }
-            case ValidationSuccess(var validAuthRequest) -> {
-                var registerResult = AuthService.register(validAuthRequest);
+            case ValidationSuccess(var authValidForm) -> {
+                var command = authValidForm.mapToOperation();
+                var registerResult = AuthService.register(command);
 
                 switch (registerResult) {
                     case Failure(UserAlreadyExistsError(var message)) -> IO.println(message);
