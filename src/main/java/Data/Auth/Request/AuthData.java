@@ -1,6 +1,6 @@
 package Data.Auth.Request;
 
-import Data.Operation.AuthCommand;
+import Data.Operation.RegisterCommand;
 import DataValidator.Data.Core.Operation;
 import DataValidator.Data.Rules.MinLength;
 import DataValidator.Data.Rules.Required;
@@ -21,7 +21,7 @@ public record AuthData(String login, String password) implements Data {
 
     @Override
     public Operation mapToOperation() {
-        return AuthCommand.of(login, password);
+        return RegisterCommand.of(login, password);
     }
 
 
