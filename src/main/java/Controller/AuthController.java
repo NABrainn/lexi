@@ -1,8 +1,7 @@
 package Controller;
 
-import Data.Auth.Request.AuthData;
+import Data.Auth.Request.AuthRequest;
 import Data.Auth.Result.UserAlreadyExistsError;
-import Data.Operation.RegisterCommand;
 import Data.Result.Failure;
 import Data.Result.Success;
 import DataValidator.Data.Result.ValidationFailure;
@@ -26,7 +25,7 @@ public class AuthController {
     }
 
     public static void register(Context ctx) {
-        var authForm = FormBinder.bind(ctx, AuthData.class);
+        var authForm = FormBinder.bind(ctx, AuthRequest.class);
         var result = Validator.validate(authForm);
 
         switch (result) {

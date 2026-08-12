@@ -1,7 +1,6 @@
 package Data.Auth.Request;
 
 import Data.Operation.RegisterCommand;
-import DataValidator.Data.Core.Operation;
 import DataValidator.Data.Rules.MinLength;
 import DataValidator.Data.Rules.Required;
 import DataValidator.Data.Rules.Rule;
@@ -10,7 +9,7 @@ import DataValidator.Data.Core.Data;
 import java.util.List;
 import java.util.Map;
 
-public record AuthData(String login, String password) implements Data<RegisterCommand> {
+public record AuthRequest(String login, String password) implements Data<RegisterCommand> {
     @Override
     public Map<String, List<Rule<?>>> rules() {
         return Map.of(
@@ -25,7 +24,7 @@ public record AuthData(String login, String password) implements Data<RegisterCo
     }
 
 
-    public static AuthData of(String login, String password) {
-        return new AuthData(login, password);
+    public static AuthRequest of(String login, String password) {
+        return new AuthRequest(login, password);
     }
 }
