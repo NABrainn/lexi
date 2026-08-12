@@ -10,7 +10,7 @@ import DataValidator.Data.Core.Data;
 import java.util.List;
 import java.util.Map;
 
-public record AuthData(String login, String password) implements Data {
+public record AuthData(String login, String password) implements Data<RegisterCommand> {
     @Override
     public Map<String, List<Rule<?>>> rules() {
         return Map.of(
@@ -20,7 +20,7 @@ public record AuthData(String login, String password) implements Data {
     }
 
     @Override
-    public Operation mapToOperation() {
+    public RegisterCommand mapToOperation() {
         return RegisterCommand.of(login, password);
     }
 

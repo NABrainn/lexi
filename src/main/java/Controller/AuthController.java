@@ -37,7 +37,7 @@ public class AuthController {
                 ctx.render("partials/register-form.jte", params);
             }
             case ValidationSuccess(var authValidForm) -> {
-                var command = (RegisterCommand) authValidForm.mapToOperation();
+                var command = authValidForm.mapToOperation();
                 var registerResult = AuthService.register(command);
 
                 switch (registerResult) {
