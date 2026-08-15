@@ -11,7 +11,7 @@ import java.util.Optional;
 public class Session {
 
     private static final long SESSION_EXPIRED_DURATION = 1000 * 60 * 60 * 24;
-    private static final long REFRESH_TOKEN_EXPIRED_DURATION = (1000 * 60 * 60) / 20;
+    private static final long REFRESH_TOKEN_EXPIRED_DURATION = (1000 * 60 * 60) / 2;
 
     public static void authenticate(Context ctx, User user) {
         var now = Instant.now();
