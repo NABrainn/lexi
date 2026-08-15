@@ -3,6 +3,7 @@ package Helpers.Validation;
 import Data.Validation.Rule;
 import Helpers.Validators;
 import java.util.Collection;
+import java.util.function.Predicate;
 
 public final class Rules {
   private Rules() {}
@@ -60,7 +61,7 @@ public final class Rules {
   }
 
   private static Rule<String> stringRule(
-      java.util.function.Predicate<CharSequence> predicate, String identifier, String message) {
-    return new Rule.Simple<>(predicate::test, identifier, message);
+          Predicate<CharSequence> predicate, String identifier, String message) {
+    return new Rule.Simple<>(String.class, predicate::test, identifier, message);
   }
 }
