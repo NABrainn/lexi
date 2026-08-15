@@ -1,4 +1,4 @@
-package Data.Auth.Result;
+package Data.Auth.Result.Value;
 
 public record User(long id, String username) {
     public static User of(long id, String username){

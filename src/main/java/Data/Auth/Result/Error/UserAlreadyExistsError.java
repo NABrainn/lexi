@@ -1,4 +1,4 @@
-package Data.Auth.Result;
+package Data.Auth.Result.Error;
 
 import java.util.Objects;
 

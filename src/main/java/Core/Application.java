@@ -1,6 +1,7 @@
 package Core;
 
 import Core.Configuration.*;
+import Core.Configuration.Log.RequestLogging;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.javalin.Javalin;
 

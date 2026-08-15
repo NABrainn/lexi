@@ -1,4 +1,4 @@
-@import DataValidator.Data.Validation.ValidationErrors
+@import Data.Validation.ValidationErrors
 
 @param String login = null
 @param ValidationErrors errors = null

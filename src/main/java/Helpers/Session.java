@@ -1,6 +1,6 @@
 package Helpers;
 
-import Data.Auth.Result.User;
+import Data.Auth.Result.Value.User;
 import Data.Session.TokenKind;
 import io.javalin.http.Context;
 import jakarta.servlet.http.HttpSession;

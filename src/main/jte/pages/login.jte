@@ -1,4 +1,4 @@
-@import DataValidator.Data.Validation.ValidationErrors
+@import Data.Validation.ValidationErrors
 @import java.util.List
 
 @param List<String> styles = null

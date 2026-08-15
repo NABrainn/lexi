@@ -1,4 +1,4 @@
-package Core.Configuration;
+package Core.Configuration.Log;
 
 import Core.Application;
 import io.javalin.config.RequestLoggerConfig;
@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 public class RequestLogging {
     public static void configure(RequestLoggerConfig config) {
         var logger = LoggerFactory.getLogger(Application.class);
-        var appLogger = ApplicationRequestLogger.of(logger);
+        var appLogger = LexiRequestLogger.of(logger);
         config.http(appLogger);
     }
 }

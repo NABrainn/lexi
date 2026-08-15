@@ -1,4 +1,4 @@
-@import DataValidator.Data.Validation.ValidationErrors
+@import Data.Validation.ValidationErrors
 
 @param String login = null
 @param ValidationErrors errors = null
@@ -35,7 +35,7 @@
         <div class="field">
             <label for="password">Password</label>
             <input
-                autocomplete="off"
+                autocomplete="new-password"
                 type="password"
                 name="password"
                 id="password"
