@@ -12,7 +12,7 @@ import Data.Validation.ValidationSuccess;
 import Helpers.FormBinder;
 import Helpers.Session;
 import Helpers.Validation.Rules;
-import Helpers.Validator;
+import Helpers.Validation.Validator;
 import Service.AuthService;
 import io.javalin.http.Context;
 import java.util.List;

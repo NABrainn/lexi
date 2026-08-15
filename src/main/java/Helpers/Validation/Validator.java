@@ -1,4 +1,4 @@
-package Helpers;
+package Helpers.Validation;
 
 import Data.Validation.Rule;
 import Data.Validation.ValidationErrors;
