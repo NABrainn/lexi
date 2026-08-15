@@ -63,7 +63,7 @@
         <div class="links">
             <a
                 class="link"
-                hx-get="/auth/partials/login-form"
+                hx-get="/auth/login-form"
                 hx-target="#register-form"
             >Login instead</a>
         </div>

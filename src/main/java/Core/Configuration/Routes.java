@@ -28,8 +28,8 @@ public class Routes {
                post("/register", AuthController::register);
                post("/login", AuthController::login);
                get("/logout", AuthController::logout);
-               get("/partials/login-form", AuthController::loginForm);
-               get("/partials/register-form", AuthController::registerForm);
+               get("/login-form", AuthController::loginForm);
+               get("/register-form", AuthController::registerForm);
            });
            path("/", () -> {
                get("", IndexController::indexPage);
