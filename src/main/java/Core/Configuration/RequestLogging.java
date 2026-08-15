@@ -1,7 +1,6 @@
 package Core.Configuration;
 
 import Core.Application;
-import Core.Logger.ApplicationRequestLogger;
 import io.javalin.config.RequestLoggerConfig;
 import org.slf4j.LoggerFactory;
 

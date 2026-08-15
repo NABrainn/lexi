@@ -12,8 +12,8 @@ public record AuthRequest(String login, String password) implements Data {
     @Override
     public Map<String, List<Rule<?>>> rules() {
         return Map.of(
-                "login", List.of(Required.of(), MinLength.of(2)),
-                "password", List.of(Required.of())
+                "login", List.of(Required.of(), MinLength.of(8)),
+                "password", List.of(Required.of(), MinLength.of(8))
         );
     }
 

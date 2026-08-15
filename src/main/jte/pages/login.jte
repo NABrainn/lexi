@@ -7,7 +7,7 @@
 @template.layout.page(
     styleSheets = styles,
     content = @`
-        @template.partials.register-form(
+        @template.partials.login-form(
             errors = errors
         )
     `

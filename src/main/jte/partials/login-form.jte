@@ -3,18 +3,19 @@
 @param String login = null
 @param ValidationErrors errors = null
 @param String serviceError = null
+
 <form
-    hx-post="/auth/register"
-    id="register-form"
+    id="login-form"
+    hx-post="/auth/login"
+    hx-push-url="/"
 >
     <fieldset>
         <legend>
-            <h1>Register</h1>
+            <h1>Login</h1>
         </legend>
         <div class="field">
             <label for="login">Login</label>
             <input
-                autocomplete="off"
                 type="text"
                 name="login"
                 id="login"
@@ -35,7 +36,6 @@
         <div class="field">
             <label for="password">Password</label>
             <input
-                autocomplete="off"
                 type="password"
                 name="password"
                 id="password"
@@ -46,8 +46,8 @@
                     !{var messages = errors.getMessages("password");}
                     @if(!messages.isEmpty())
                         <span class="error">
-                            ${messages.getLast()}
-                        </span>
+                        ${messages.getLast()}
+                    </span>
                     @endif
                 @elseif(serviceError != null)
                     <span class="error">
@@ -63,9 +63,9 @@
         <div class="links">
             <a
                 class="link"
-                hx-get="/auth/login-form"
-                hx-target="#register-form"
-            >Login instead</a>
+                hx-get="/auth/register-form"
+                hx-target="#login-form"
+            >Create account</a>
         </div>
     </fieldset>
 </form>
