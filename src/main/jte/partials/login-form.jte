@@ -6,8 +6,8 @@
 
 <form
     id="login-form"
-    hx-post="/auth/login"
-    hx-push-url="/"
+    action="/auth/login"
+    method="POST"
 >
     <fieldset>
         <legend>

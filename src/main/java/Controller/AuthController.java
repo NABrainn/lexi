@@ -110,7 +110,7 @@ public class AuthController {
                     }
                     case Success(var user) -> {
                         Session.authenticate(ctx, user);
-                        ctx.render("partials/index.jte");
+                        ctx.redirect("/");
                     }
                 }
             }
