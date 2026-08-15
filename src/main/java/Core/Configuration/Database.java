@@ -1,4 +1,4 @@
-package Core.Database;
+package Core.Configuration;
 
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.statement.SqlStatements;
@@ -17,6 +17,6 @@ public class Database {
                     LOG.error(handler.getSQLState());
                     return new RuntimeException(handler.getMessage());
                 });
-        return Jdbi.create(URL);
+        return connection;
     }
 }

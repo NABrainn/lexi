@@ -2,7 +2,7 @@ package Data.Auth.Result;
 
 import java.util.Objects;
 
-public record UserAlreadyExistsError(String message) implements AuthError {
+public record UserAlreadyExistsError(String message) implements RegisterError {
     public UserAlreadyExistsError {
         Objects.requireNonNull(message);
     }

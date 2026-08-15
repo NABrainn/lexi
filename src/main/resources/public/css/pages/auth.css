@@ -1,6 +1,16 @@
 @layer auth {
-    fieldset {
-        display: flex;
-        flex-direction: column;
+    form {
+        width: 20%;
+        margin: var(--margin-2xl) auto 0;
+
+        @media(max-width: 724px) {
+            width: 80%;
+        }
+
+        .links {
+            margin-top: var(--margin-xl);
+            display: flex;
+            justify-content: center;
+        }
     }
 }

@@ -1,4 +1,4 @@
-package Core.Logger;
+package Core.Configuration;
 
 import io.javalin.http.Context;
 import io.javalin.http.RequestLogger;

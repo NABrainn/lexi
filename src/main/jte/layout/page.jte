@@ -11,7 +11,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Lexi">
-        <script type="module" src="/public/js/htmx.js"></script>
+        <script src="/public/js/htmx.js"></script>
         <link rel="stylesheet" type="text/css" href="/public/css/style.css"/>
         @if(styleSheets != null)
             @for(var style : styleSheets)
@@ -23,10 +23,18 @@
                 <script src="/public/js/${script}"></script>
             @endfor
         @endif
+        <script>
+            htmx.config.defaultSwap = "outerHTML";
+            htmx.config.transitions = true;
+
+        </script>
         <title>Lexi</title>
     </head>
     <body>
-        <main>
+        <main
+            id="layout"
+            class="layout"
+        >
             ${content}
         </main>
     </body>
