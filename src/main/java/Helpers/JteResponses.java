@@ -46,7 +46,7 @@ public class JteResponses {
         }
     }
 
-    public static Builder ctx(Context ctx) {
+    public static Builder with(Context ctx) {
         return Builder.of(ctx);
     }
 

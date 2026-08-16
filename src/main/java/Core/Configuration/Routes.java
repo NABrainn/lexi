@@ -35,8 +35,7 @@ public class Routes {
         }));
 
         config.get("/error-500", (ctx) -> {
-            JteResponses
-                    .ctx(ctx)
+            JteResponses.with(ctx)
                     .render("pages/error-500.jte");
         });
 
