@@ -11,6 +11,7 @@ import Data.Validation.ValidationFailure;
 import Data.Validation.ValidationSuccess;
 import Helpers.FormBinder;
 import Helpers.Headers;
+import Helpers.Jte;
 import Helpers.Session;
 import Helpers.Validation.Rules;
 import Helpers.Validation.Validator;
@@ -36,15 +37,23 @@ public class AuthController{
     public static void registerPage(Context ctx) {
         var styles = List.of("pages/auth.css");
         var params = Map.of("styles", styles);
+
         if (Session.isAuthenticated(ctx)) {
             ctx.redirect("/");
         }
 
-        ctx.render("pages/register.jte", params);
+        Jte
+                .ctx(ctx)
+                .path("pages/register.jte")
+                .params(params)
+                .render();
     }
 
     public static void registerForm(Context ctx) {
-        ctx.render("partials/register-form.jte", Map.of());
+        Jte
+                .ctx(ctx)
+                .path("partials/register-form.jte")
+                .render();
     }
 
     public static void register(Context ctx) {
@@ -54,8 +63,12 @@ public class AuthController{
             case ValidationFailure(var errors) -> {
                 var login = Objects.requireNonNullElse(ctx.formParam("login"), "");
                 var params = Map.of("login", login, "errors", errors);
-                ctx.status(400);
-                ctx.render("partials/register-form.jte", params);
+                Jte
+                        .ctx(ctx)
+                        .path("partials/register-form.jte")
+                        .params(params)
+                        .status(400)
+                        .render();
             }
             case ValidationSuccess(var _) -> {
                 var authForm = FormBinder.bind(ctx, AuthRequest.class);
@@ -64,10 +77,20 @@ public class AuthController{
 
                 switch (registerResult) {
                     case Failure(UserAlreadyExistsError(var message)) -> {
-                        ctx.status(400);
-                        ctx.render("partials/register-form.jte", Map.of("serviceError", message));
+                        var params = Map.of("serviceError", message);
+                        Jte
+                                .ctx(ctx)
+                                .path("partials/register-form.jte")
+                                .params(params)
+                                .status(400)
+                                .render();
                     }
-                    case Success(var _) -> ctx.render("partials/login-form.jte");
+                    case Success(var _) ->
+                            Jte
+                                    .ctx(ctx)
+                                    .path("partials/login-form.jte")
+                                    .render();
+
                 }
             }
         }
@@ -81,11 +104,19 @@ public class AuthController{
             ctx.redirect("/");
         }
 
-        ctx.render("pages/login.jte", params);
+        Jte
+                .ctx(ctx)
+                .path("pages/login.jte")
+                .params(params)
+                .render();
     }
 
     public static void loginForm(Context ctx) {
-        ctx.render("partials/login-form.jte", Map.of());
+        Jte
+                .ctx(ctx)
+                .path("partials/login-form.jte")
+                .render();
+
     }
 
     public static void login(@NotNull Context ctx) {
@@ -95,8 +126,13 @@ public class AuthController{
             case ValidationFailure(var errors) -> {
                 var login = Objects.requireNonNullElse(ctx.formParam("login"), "");
                 var params = Map.of("login", login, "errors", errors);
-                ctx.status(400);
-                ctx.render("partials/login-form.jte", params);
+                Jte
+                        .ctx(ctx)
+                        .path("partials/login-form.jte")
+                        .params(params)
+                        .status(400)
+                        .render();
+
             }
             case ValidationSuccess(var _) -> {
                 var authForm = FormBinder.bind(ctx, AuthRequest.class);
@@ -105,8 +141,13 @@ public class AuthController{
 
                 switch (loginResult) {
                     case Failure(UserDoesNotExistError(var message)) -> {
-                        ctx.status(400);
-                        ctx.render("partials/login-form.jte", Map.of("serviceError", message));
+                        var params = Map.of("serviceError", message);
+                        Jte
+                                .ctx(ctx)
+                                .path("partials/login-form.jte")
+                                .params(params)
+                                .status(400)
+                                .render();
                     }
                     case Success(var user) -> {
                         Session.authenticate(ctx, user);
