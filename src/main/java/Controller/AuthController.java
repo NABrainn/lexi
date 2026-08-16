@@ -1,26 +1,18 @@
 package Controller;
 
-import Data.Auth.Request.AuthRequest;
 import Data.Auth.Result.Error.UserAlreadyExistsError;
 import Data.Auth.Result.Error.UserDoesNotExistError;
 import Data.Operation.Implementations.AuthCommand;
 import Data.Result.Failure;
 import Data.Result.Success;
 import Data.Validation.Rule;
-import Data.Validation.ValidationFailure;
-import Data.Validation.ValidationSuccess;
-import Helpers.FormBinder;
-import Helpers.Headers;
-import Helpers.JteResponses;
-import Helpers.Session;
+import Helpers.*;
 import Helpers.Validation.Rules;
-import Helpers.Validation.Validator;
 import Service.AuthService;
 import io.javalin.http.Context;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import org.jetbrains.annotations.NotNull;
 
 public class AuthController{
     private static final Map<String, List<Rule<?>>> authRules = Map.of(
@@ -57,41 +49,49 @@ public class AuthController{
     }
 
     public static void register(Context ctx) {
-        var result = Validator.validate(ctx, authRules);
+        var loginValidator = ctx.formParamAsClass("login", String.class)
+                .check(Objects::nonNull, "Login cannot be null")
+                .check(login -> !login.trim().isEmpty(), "Login cannot be empty")
+                .check(login -> login.trim().length() >= 8, "Login must be at least 8 characters");
 
-        switch (result) {
-            case ValidationFailure(var errors) -> {
-                var login = Objects.requireNonNullElse(ctx.formParam("login"), "");
-                var params = Map.of("login", login, "errors", errors);
-                JteResponses
-                        .ctx(ctx)
-                        .path("partials/register-form.jte")
-                        .params(params)
-                        .status(400)
-                        .render();
-            }
-            case ValidationSuccess(var _) -> {
-                var authForm = FormBinder.bind(ctx, AuthRequest.class);
-                var command = AuthCommand.of(authForm);
-                var registerResult = AuthService.register(command);
+        var passwordValidator = ctx.formParamAsClass("password", String.class)
+                .check(Objects::nonNull, "Password cannot be null")
+                .check(password -> !password.trim().isEmpty(), "Password cannot be empty")
+                .check(password -> password.trim().length() >= 8, "Password must be at least 8 characters");
 
-                switch (registerResult) {
-                    case Failure(UserAlreadyExistsError(var message)) -> {
-                        var params = Map.of("serviceError", message);
+        if(Validators.hasErrors(loginValidator, passwordValidator)) {
+            var errors = Validators.errors(loginValidator, passwordValidator);
+            var login = loginValidator.getOrDefault("");
+            var params = Map.of("login", login, "errors", errors);
+            JteResponses
+                    .ctx(ctx)
+                    .path("partials/register-form.jte")
+                    .params(params)
+                    .status(400)
+                    .render();
+        }
+        else {
+            var login = loginValidator.get();
+            var password = passwordValidator.get();
+            var command = AuthCommand.of(login, password);
+            var registerResult = AuthService.register(command);
+
+            switch (registerResult) {
+                case Failure(UserAlreadyExistsError(var message)) -> {
+                    var params = Map.of("serviceError", message);
+                    JteResponses
+                            .ctx(ctx)
+                            .path("partials/register-form.jte")
+                            .params(params)
+                            .status(400)
+                            .render();
+                }
+                case Success(var _) ->
                         JteResponses
                                 .ctx(ctx)
-                                .path("partials/register-form.jte")
-                                .params(params)
-                                .status(400)
+                                .path("partials/login-form.jte")
                                 .render();
-                    }
-                    case Success(var _) ->
-                            JteResponses
-                                    .ctx(ctx)
-                                    .path("partials/login-form.jte")
-                                    .render();
 
-                }
             }
         }
     }
@@ -119,40 +119,47 @@ public class AuthController{
 
     }
 
-    public static void login(@NotNull Context ctx) {
-        var result = Validator.validate(ctx, authRules);
+    public static void login(Context ctx) {
+        var loginValidator = ctx.formParamAsClass("login", String.class)
+                .check(Objects::nonNull, "Login cannot be null")
+                .check(login -> !login.trim().isEmpty(), "Login cannot be empty")
+                .check(login -> login.trim().length() >= 8, "Login must be at least 8 characters");
 
-        switch (result) {
-            case ValidationFailure(var errors) -> {
-                var login = Objects.requireNonNullElse(ctx.formParam("login"), "");
-                var params = Map.of("login", login, "errors", errors);
-                JteResponses
-                        .ctx(ctx)
-                        .path("partials/login-form.jte")
-                        .params(params)
-                        .status(400)
-                        .render();
+        var passwordValidator = ctx.formParamAsClass("password", String.class)
+                .check(Objects::nonNull, "Password cannot be null")
+                .check(password -> !password.trim().isEmpty(), "Password cannot be empty")
+                .check(password -> password.trim().length() >= 8, "Password must be at least 8 characters");
 
-            }
-            case ValidationSuccess(var _) -> {
-                var authForm = FormBinder.bind(ctx, AuthRequest.class);
-                var command = AuthCommand.of(authForm);
-                var loginResult = AuthService.login(command);
+        if(Validators.hasErrors(loginValidator, passwordValidator)) {
+            var login = loginValidator.getOrDefault("");
+            var errors = Validators.errors(loginValidator, passwordValidator);
+            var params = Map.of("login", login, "errors", errors);
+            JteResponses
+                    .ctx(ctx)
+                    .path("partials/login-form.jte")
+                    .params(params)
+                    .status(400)
+                    .render();
+        }
+        else {
+            var login = loginValidator.get();
+            var password = passwordValidator.get();
+            var command = AuthCommand.of(login, password);
+            var loginResult = AuthService.login(command);
 
-                switch (loginResult) {
-                    case Failure(UserDoesNotExistError(var message)) -> {
-                        var params = Map.of("serviceError", message);
-                        JteResponses
-                                .ctx(ctx)
-                                .path("partials/login-form.jte")
-                                .params(params)
-                                .status(400)
-                                .render();
-                    }
-                    case Success(var user) -> {
-                        Session.authenticate(ctx, user);
-                        Headers.hxRedirect(ctx, "/");
-                    }
+            switch (loginResult) {
+                case Failure(UserDoesNotExistError(var message)) -> {
+                    var params = Map.of("serviceError", message);
+                    JteResponses
+                            .ctx(ctx)
+                            .path("partials/login-form.jte")
+                            .params(params)
+                            .status(400)
+                            .render();
+                }
+                case Success(var user) -> {
+                    Session.authenticate(ctx, user);
+                    Headers.hxRedirect(ctx, "/");
                 }
             }
         }

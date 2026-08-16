@@ -26,7 +26,7 @@
                     !{var messages = errors.getMessages("login");}
                     @if(!messages.isEmpty())
                         <span class="error">
-                        ${messages.getLast()}
+                        ${messages.getLast().getMessage()}
                     </span>
                     @endif
                 @endif
@@ -46,7 +46,7 @@
                     !{var messages = errors.getMessages("password");}
                     @if(!messages.isEmpty())
                         <span class="error">
-                            ${messages.getLast()}
+                            ${messages.getLast().getMessage()}
                         </span>
                     @endif
                 @elseif(serviceError != null)
