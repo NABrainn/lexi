@@ -3,7 +3,7 @@ package Helpers;
 import io.javalin.http.Context;
 import io.javalin.validation.Validator;
 
-public class Form {
+public class Forms {
     public static boolean hasErrors(Validator<?>... validators) {
         for(var validator : validators) {
             if(!validator.errors().isEmpty()) {
@@ -22,7 +22,7 @@ public class Form {
         return true;
     }
 
-    public static String inputValue(Context ctx, String param) {
+    public static String readInputValue(Context ctx, String param) {
         return ctx.formParam(param) == null
                 ? ""
                 : ctx.formParam(param);

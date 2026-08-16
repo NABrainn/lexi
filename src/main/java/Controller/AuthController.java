@@ -5,7 +5,7 @@ import Data.Auth.Result.Error.UserDoesNotExistError;
 import Data.Operation.Implementations.AuthCommand;
 import Data.Result.Failure;
 import Data.Result.Success;
-import Helpers.Form;
+import Helpers.Forms;
 import Helpers.FormErrors;
 import Helpers.Headers;
 import Helpers.JteResponses;
@@ -27,19 +27,15 @@ public class AuthController {
             ctx.redirect("/");
         }
         else {
-            JteResponses
-                    .ctx(ctx)
-                    .path("pages/register.jte")
+            JteResponses.ctx(ctx)
                     .params(params)
-                    .render();
+                    .render("pages/register.jte");
         }
     }
 
     public static void registerForm(Context ctx) {
-        JteResponses
-                .ctx(ctx)
-                .path("partials/register-form.jte")
-                .render();
+        JteResponses.ctx(ctx)
+                .render("partials/register-form.jte");
     }
 
     public static void register(Context ctx) {
@@ -51,7 +47,7 @@ public class AuthController {
                 .check(Rules.required(), "Password is required")
                 .check(Rules.minLength(8), "Password must be at least 8 characters");
 
-        if (Form.isValid(loginValidator, passwordValidator)) {
+        if (Forms.isValid(loginValidator, passwordValidator)) {
             var login = loginValidator.get();
             var password = passwordValidator.get();
             var command = AuthCommand.of(login, password);
@@ -64,35 +60,29 @@ public class AuthController {
                             "errors", FormErrors.global(message)
                     );
 
-                    JteResponses
-                            .ctx(ctx)
-                            .path("partials/register-form.jte")
+                    JteResponses.ctx(ctx)
                             .params(params)
                             .status(400)
-                            .render();
+                            .render("partials/register-form.jte");
                 }
 
                 case Success(var _) ->
-                        JteResponses
-                                .ctx(ctx)
-                                .path("partials/login-form.jte")
-                                .render();
+                        JteResponses.ctx(ctx)
+                                .render("partials/login-form.jte");
             }
         }
         else {
-            var login = Form.inputValue(ctx, "login");
+            var login = Forms.readInputValue(ctx, "login");
             var errorMap = Validation.collectErrors(loginValidator, passwordValidator);
             var errors = FormErrors.of(errorMap);
             var params = Map.of(
                     "login", login,
                     "errors", errors
             );
-            JteResponses
-                    .ctx(ctx)
-                    .path("partials/register-form.jte")
+            JteResponses.ctx(ctx)
                     .params(params)
                     .status(400)
-                    .render();
+                    .render("partials/register-form.jte");
         }
     }
 
@@ -104,19 +94,15 @@ public class AuthController {
             ctx.redirect("/");
         }
         else {
-            JteResponses
-                    .ctx(ctx)
-                    .path("pages/login.jte")
+            JteResponses.ctx(ctx)
                     .params(params)
-                    .render();
+                    .render("pages/login.jte");
         }
     }
 
     public static void loginForm(Context ctx) {
-        JteResponses
-                .ctx(ctx)
-                .path("partials/login-form.jte")
-                .render();
+        JteResponses.ctx(ctx)
+                .render("partials/login-form.jte");
     }
 
     public static void login(Context ctx) {
@@ -128,7 +114,7 @@ public class AuthController {
                 .check(Rules.required(), "Password is required")
                 .check(Rules.minLength(8), "Password must be at least 8 characters");
 
-        if (Form.isValid(loginValidator, passwordValidator)) {
+        if (Forms.isValid(loginValidator, passwordValidator)) {
             var login = loginValidator.get();
             var password = passwordValidator.get();
             var command = AuthCommand.of(login, password);
@@ -140,12 +126,10 @@ public class AuthController {
                             "login", login,
                             "errors", FormErrors.global(message)
                     );
-                    JteResponses
-                            .ctx(ctx)
-                            .path("partials/login-form.jte")
+                    JteResponses.ctx(ctx)
                             .params(params)
                             .status(400)
-                            .render();
+                            .render("partials/login-form.jte");
                 }
 
                 case Success(var user) -> {
@@ -155,19 +139,17 @@ public class AuthController {
             }
         }
         else {
-            var login = Form.inputValue(ctx, "login");
+            var login = Forms.readInputValue(ctx, "login");
             var errorMap = Validation.collectErrors(loginValidator, passwordValidator);
             var errors = FormErrors.of(errorMap);
             var params = Map.of(
                     "login", login,
                     "errors", errors
             );
-            JteResponses
-                    .ctx(ctx)
-                    .path("partials/login-form.jte")
+            JteResponses.ctx(ctx)
                     .params(params)
                     .status(400)
-                    .render();
+                    .render("partials/login-form.jte");
         }
     }
 
