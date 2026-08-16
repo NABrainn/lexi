@@ -154,7 +154,7 @@ public class AuthController {
             }
         }
         else {
-            var login = Form.stringParam(ctx, "login");
+            var login = Form.paramAsString(ctx, "login");
             var errors = FormErrors.of(Validation.collectErrors(loginValidator, passwordValidator));
             var params = Map.of(
                     "login", login,

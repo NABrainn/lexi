@@ -22,7 +22,7 @@ public class Form {
         return true;
     }
 
-    public static String stringParam(Context ctx, String param) {
+    public static String paramAsString(Context ctx, String param) {
         return ctx.formParam(param) == null
                 ? ""
                 : ctx.formParam(param);
