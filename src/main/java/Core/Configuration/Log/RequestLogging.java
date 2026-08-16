@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 public class RequestLogging {
     public static void configure(RequestLoggerConfig config) {
         var logger = LoggerFactory.getLogger(Application.class);
-        var appLogger = LexiRequestLogger.of(logger);
+        var appLogger = AppRequestLogger.of(logger);
         config.http(appLogger);
     }
 }
