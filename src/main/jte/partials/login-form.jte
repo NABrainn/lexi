@@ -6,8 +6,7 @@
 
 <form
     id="login-form"
-    action="/auth/login"
-    method="POST"
+    hx-post="/auth/login"
 >
     <fieldset>
         <legend>

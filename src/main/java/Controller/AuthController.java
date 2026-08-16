@@ -10,6 +10,7 @@ import Data.Validation.Rule;
 import Data.Validation.ValidationFailure;
 import Data.Validation.ValidationSuccess;
 import Helpers.FormBinder;
+import Helpers.Headers;
 import Helpers.Session;
 import Helpers.Validation.Rules;
 import Helpers.Validation.Validator;
@@ -109,7 +110,7 @@ public class AuthController{
                     }
                     case Success(var user) -> {
                         Session.authenticate(ctx, user);
-                        ctx.redirect("/");
+                        Headers.hxRedirect(ctx, "/");
                     }
                 }
             }
@@ -118,6 +119,6 @@ public class AuthController{
 
     public static void logout(Context ctx) {
         Session.logout(ctx);
-        ctx.redirect("/login");
+        Headers.hxRedirect(ctx, "/login");
     }
 }
