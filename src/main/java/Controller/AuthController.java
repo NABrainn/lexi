@@ -51,7 +51,7 @@ public class AuthController {
                 .check(Rules.required(), "Password is required")
                 .check(Rules.minLength(8), "Password must be at least 8 characters");
 
-        if (!Form.hasErrors(loginValidator, passwordValidator)) {
+        if (Form.isValid(loginValidator, passwordValidator)) {
             var login = loginValidator.get();
             var password = passwordValidator.get();
             var command = AuthCommand.of(login, password);
@@ -127,7 +127,7 @@ public class AuthController {
                 .check(Rules.required(), "Password is required")
                 .check(Rules.minLength(8), "Password must be at least 8 characters");
 
-        if (!Form.hasErrors(loginValidator, passwordValidator)) {
+        if (Form.isValid(loginValidator, passwordValidator)) {
             var login = loginValidator.get();
             var password = passwordValidator.get();
             var command = AuthCommand.of(login, password);
@@ -154,10 +154,10 @@ public class AuthController {
             }
         }
         else {
-            var login = ctx.formParam("login");
+            var login = Form.stringParam(ctx, "login");
             var errors = FormErrors.of(Validation.collectErrors(loginValidator, passwordValidator));
             var params = Map.of(
-                    "login", login == null ? "" : login,
+                    "login", login,
                     "errors", errors
             );
             JteResponses
