@@ -11,7 +11,7 @@ import Data.Validation.ValidationFailure;
 import Data.Validation.ValidationSuccess;
 import Helpers.FormBinder;
 import Helpers.Headers;
-import Helpers.Jte;
+import Helpers.JteResponses;
 import Helpers.Session;
 import Helpers.Validation.Rules;
 import Helpers.Validation.Validator;
@@ -42,7 +42,7 @@ public class AuthController{
             ctx.redirect("/");
         }
 
-        Jte
+        JteResponses
                 .ctx(ctx)
                 .path("pages/register.jte")
                 .params(params)
@@ -50,7 +50,7 @@ public class AuthController{
     }
 
     public static void registerForm(Context ctx) {
-        Jte
+        JteResponses
                 .ctx(ctx)
                 .path("partials/register-form.jte")
                 .render();
@@ -63,7 +63,7 @@ public class AuthController{
             case ValidationFailure(var errors) -> {
                 var login = Objects.requireNonNullElse(ctx.formParam("login"), "");
                 var params = Map.of("login", login, "errors", errors);
-                Jte
+                JteResponses
                         .ctx(ctx)
                         .path("partials/register-form.jte")
                         .params(params)
@@ -78,7 +78,7 @@ public class AuthController{
                 switch (registerResult) {
                     case Failure(UserAlreadyExistsError(var message)) -> {
                         var params = Map.of("serviceError", message);
-                        Jte
+                        JteResponses
                                 .ctx(ctx)
                                 .path("partials/register-form.jte")
                                 .params(params)
@@ -86,7 +86,7 @@ public class AuthController{
                                 .render();
                     }
                     case Success(var _) ->
-                            Jte
+                            JteResponses
                                     .ctx(ctx)
                                     .path("partials/login-form.jte")
                                     .render();
@@ -104,7 +104,7 @@ public class AuthController{
             ctx.redirect("/");
         }
 
-        Jte
+        JteResponses
                 .ctx(ctx)
                 .path("pages/login.jte")
                 .params(params)
@@ -112,7 +112,7 @@ public class AuthController{
     }
 
     public static void loginForm(Context ctx) {
-        Jte
+        JteResponses
                 .ctx(ctx)
                 .path("partials/login-form.jte")
                 .render();
@@ -126,7 +126,7 @@ public class AuthController{
             case ValidationFailure(var errors) -> {
                 var login = Objects.requireNonNullElse(ctx.formParam("login"), "");
                 var params = Map.of("login", login, "errors", errors);
-                Jte
+                JteResponses
                         .ctx(ctx)
                         .path("partials/login-form.jte")
                         .params(params)
@@ -142,7 +142,7 @@ public class AuthController{
                 switch (loginResult) {
                     case Failure(UserDoesNotExistError(var message)) -> {
                         var params = Map.of("serviceError", message);
-                        Jte
+                        JteResponses
                                 .ctx(ctx)
                                 .path("partials/login-form.jte")
                                 .params(params)

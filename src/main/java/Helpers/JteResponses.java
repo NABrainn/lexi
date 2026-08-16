@@ -10,11 +10,11 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.Objects;
 
-public class Jte {
+public class JteResponses {
     private static final TemplateEngine templateEngine = TemplateEngine.create(new DirectoryCodeResolver(Path.of("src/main/jte")), ContentType.Html);
 
     public static final class Builder {
-        private Context ctx;
+        private final Context ctx;
         private String path;
         private Map<String, ?> params;
         private int status;
@@ -55,30 +55,6 @@ public class Jte {
 
     public static Builder ctx(Context ctx) {
         return Builder.of(ctx);
-    }
-
-    public static void render200(Context ctx, String filePath, Map<String, ?> params) {
-        render(ctx, filePath, params, 200);
-    }
-
-    public static void render200(Context ctx, String filePath) {
-        render(ctx, filePath, Map.of(), 200);
-    }
-
-    public static void render400(Context ctx, String filePath, Map<String, ?> params) {
-        render(ctx, filePath, params, 400);
-    }
-
-    public static void render400(Context ctx, String filePath) {
-        render(ctx, filePath, Map.of(), 400);
-    }
-
-    public static void render500(Context ctx, String filePath, Map<String, ?> params) {
-        render(ctx, filePath, params, 500);
-    }
-
-    public static void render500(Context ctx, String filePath) {
-        render(ctx, filePath, Map.of(), 500);
     }
 
     public static String output(String tmpl, Map<String, ?> params) {
