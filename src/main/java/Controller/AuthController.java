@@ -27,16 +27,14 @@ public class AuthController {
             ctx.redirect("/");
         }
         else {
-            JteResponses
-                    .ctx(ctx)
+            JteResponses.ctx(ctx)
                     .params(params)
                     .render("pages/register.jte");
         }
     }
 
     public static void registerForm(Context ctx) {
-        JteResponses
-                .ctx(ctx)
+        JteResponses.ctx(ctx)
                 .render("partials/register-form.jte");
     }
 
@@ -62,29 +60,26 @@ public class AuthController {
                             "errors", FormErrors.global(message)
                     );
 
-                    JteResponses
-                            .ctx(ctx)
+                    JteResponses.ctx(ctx)
                             .params(params)
                             .status(400)
                             .render("partials/register-form.jte");
                 }
 
                 case Success(var _) ->
-                        JteResponses
-                                .ctx(ctx)
+                        JteResponses.ctx(ctx)
                                 .render("partials/login-form.jte");
             }
         }
         else {
-            var login = Forms.inputValue(ctx, "login");
+            var login = Forms.readInputValue(ctx, "login");
             var errorMap = Validation.collectErrors(loginValidator, passwordValidator);
             var errors = FormErrors.of(errorMap);
             var params = Map.of(
                     "login", login,
                     "errors", errors
             );
-            JteResponses
-                    .ctx(ctx)
+            JteResponses.ctx(ctx)
                     .params(params)
                     .status(400)
                     .render("partials/register-form.jte");
@@ -99,16 +94,14 @@ public class AuthController {
             ctx.redirect("/");
         }
         else {
-            JteResponses
-                    .ctx(ctx)
+            JteResponses.ctx(ctx)
                     .params(params)
                     .render("pages/login.jte");
         }
     }
 
     public static void loginForm(Context ctx) {
-        JteResponses
-                .ctx(ctx)
+        JteResponses.ctx(ctx)
                 .render("partials/login-form.jte");
     }
 
@@ -133,8 +126,7 @@ public class AuthController {
                             "login", login,
                             "errors", FormErrors.global(message)
                     );
-                    JteResponses
-                            .ctx(ctx)
+                    JteResponses.ctx(ctx)
                             .params(params)
                             .status(400)
                             .render("partials/login-form.jte");
@@ -147,15 +139,14 @@ public class AuthController {
             }
         }
         else {
-            var login = Forms.inputValue(ctx, "login");
+            var login = Forms.readInputValue(ctx, "login");
             var errorMap = Validation.collectErrors(loginValidator, passwordValidator);
             var errors = FormErrors.of(errorMap);
             var params = Map.of(
                     "login", login,
                     "errors", errors
             );
-            JteResponses
-                    .ctx(ctx)
+            JteResponses.ctx(ctx)
                     .params(params)
                     .status(400)
                     .render("partials/login-form.jte");
