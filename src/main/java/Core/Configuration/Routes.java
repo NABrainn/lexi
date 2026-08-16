@@ -17,8 +17,8 @@ public class Routes {
     public static void configure(RoutesConfig config) {
 
         protectedPaths.forEach(path -> config.before(path, ctx -> {
-            var refreshed = Session.tryToRefresh(ctx);
-            if(!refreshed) {
+            Session.refresh(ctx);
+            if(!Session.isAuthenticated(ctx)) {
                 ctx.redirect("/login");
             }
         }));
