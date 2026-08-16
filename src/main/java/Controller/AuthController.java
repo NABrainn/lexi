@@ -27,14 +27,14 @@ public class AuthController {
             ctx.redirect("/");
         }
         else {
-            JteResponses.ctx(ctx)
+            JteResponses.with(ctx)
                     .params(params)
                     .render("pages/register.jte");
         }
     }
 
     public static void registerForm(Context ctx) {
-        JteResponses.ctx(ctx)
+        JteResponses.with(ctx)
                 .render("partials/register-form.jte");
     }
 
@@ -60,14 +60,14 @@ public class AuthController {
                             "errors", FormErrors.global(message)
                     );
 
-                    JteResponses.ctx(ctx)
+                    JteResponses.with(ctx)
                             .params(params)
                             .status(400)
                             .render("partials/register-form.jte");
                 }
 
                 case Success(var _) ->
-                        JteResponses.ctx(ctx)
+                        JteResponses.with(ctx)
                                 .render("partials/login-form.jte");
             }
         }
@@ -79,7 +79,7 @@ public class AuthController {
                     "login", login,
                     "errors", errors
             );
-            JteResponses.ctx(ctx)
+            JteResponses.with(ctx)
                     .params(params)
                     .status(400)
                     .render("partials/register-form.jte");
@@ -94,14 +94,14 @@ public class AuthController {
             ctx.redirect("/");
         }
         else {
-            JteResponses.ctx(ctx)
+            JteResponses.with(ctx)
                     .params(params)
                     .render("pages/login.jte");
         }
     }
 
     public static void loginForm(Context ctx) {
-        JteResponses.ctx(ctx)
+        JteResponses.with(ctx)
                 .render("partials/login-form.jte");
     }
 
@@ -126,7 +126,7 @@ public class AuthController {
                             "login", login,
                             "errors", FormErrors.global(message)
                     );
-                    JteResponses.ctx(ctx)
+                    JteResponses.with(ctx)
                             .params(params)
                             .status(400)
                             .render("partials/login-form.jte");
@@ -146,7 +146,7 @@ public class AuthController {
                     "login", login,
                     "errors", errors
             );
-            JteResponses.ctx(ctx)
+            JteResponses.with(ctx)
                     .params(params)
                     .status(400)
                     .render("partials/login-form.jte");
