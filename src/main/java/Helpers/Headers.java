@@ -12,4 +12,8 @@ public class Headers {
 
         return value.equals("true");
     }
+
+    public static void hxRedirect(Context ctx, String location) {
+        ctx.header("HX-Redirect", location);
+    }
 }

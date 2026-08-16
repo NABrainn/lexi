@@ -1,7 +1,7 @@
 package Repository;
 
 import Core.Configuration.Database;
-import Data.Auth.Result.User;
+import Data.Auth.Result.Value.User;
 
 import java.util.Optional;
 

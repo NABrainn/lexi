@@ -1,124 +1,178 @@
 package Controller;
 
-import Data.Auth.Request.AuthRequest;
-import Data.Auth.Result.UserAlreadyExistsError;
-import Data.Auth.Result.UserDoesNotExistError;
-import Data.Operation.AuthCommand;
+import Data.Auth.Result.Error.UserAlreadyExistsError;
+import Data.Auth.Result.Error.UserDoesNotExistError;
+import Data.Operation.Implementations.AuthCommand;
 import Data.Result.Failure;
 import Data.Result.Success;
-import DataValidator.Data.Result.ValidationFailure;
-import DataValidator.Data.Result.ValidationSuccess;
-import DataValidator.Service.Validator;
-import Helpers.FormBinder;
+import Helpers.Form;
+import Helpers.FormErrors;
+import Helpers.Headers;
+import Helpers.JteResponses;
+import Helpers.Rules;
 import Helpers.Session;
 import Service.AuthService;
 import io.javalin.http.Context;
-import org.jetbrains.annotations.NotNull;
+import io.javalin.validation.Validation;
 
 import java.util.List;
 import java.util.Map;
 
 public class AuthController {
-
     public static void registerPage(Context ctx) {
         var styles = List.of("pages/auth.css");
-        var params = Map.of(
-                "styles", styles
-        );
+        var params = Map.of("styles", styles);
 
-        if(Session.isAuthenticated(ctx)) {
+        if (Session.isAuthenticated(ctx)) {
             ctx.redirect("/");
         }
-
-        ctx.render("pages/register.jte", params);
+        else {
+            JteResponses
+                    .ctx(ctx)
+                    .path("pages/register.jte")
+                    .params(params)
+                    .render();
+        }
     }
 
     public static void registerForm(Context ctx) {
-        ctx.render("partials/register-form.jte", Map.of());
+        JteResponses
+                .ctx(ctx)
+                .path("partials/register-form.jte")
+                .render();
     }
 
     public static void register(Context ctx) {
-        var authForm = FormBinder.bind(ctx, AuthRequest.class);
-        var result = Validator.validate(authForm);
+        var loginValidator = ctx.formParamAsClass("login", String.class)
+                .check(Rules.required(), "Login is required")
+                .check(Rules.minLength(8), "Login must be at least 8 characters");
 
-        switch (result) {
-            case ValidationFailure(var errors) -> {
-                var params = Map.of(
-                        "login", authForm.login(),
-                        "errors", errors
-                );
-                ctx.status(400);
-                ctx.render("partials/register-form.jte", params);
-            }
-            case ValidationSuccess(var validAuthForm) -> {
-                var command = AuthCommand.of(validAuthForm);
-                var registerResult = AuthService.register(command);
+        var passwordValidator = ctx.formParamAsClass("password", String.class)
+                .check(Rules.required(), "Password is required")
+                .check(Rules.minLength(8), "Password must be at least 8 characters");
 
-                switch (registerResult) {
-                    case Failure(UserAlreadyExistsError(var message)) -> {
-                        ctx.status(400);
-                        ctx.render("partials/register-form.jte", Map.of(
-                                "serviceError", message
-                        ));
-                    }
-                    case Success(var _) -> ctx.render("partials/login-form.jte");
+        if (Form.isValid(loginValidator, passwordValidator)) {
+            var login = loginValidator.get();
+            var password = passwordValidator.get();
+            var command = AuthCommand.of(login, password);
+            var registerResult = AuthService.register(command);
+
+            switch (registerResult) {
+                case Failure(UserAlreadyExistsError(var message)) -> {
+                    var params = Map.of(
+                            "login", login,
+                            "errors", FormErrors.global(message)
+                    );
+
+                    JteResponses
+                            .ctx(ctx)
+                            .path("partials/register-form.jte")
+                            .params(params)
+                            .status(400)
+                            .render();
                 }
+
+                case Success(var _) ->
+                        JteResponses
+                                .ctx(ctx)
+                                .path("partials/login-form.jte")
+                                .render();
             }
+        }
+        else {
+            var login = Form.inputValue(ctx, "login");
+            var errorMap = Validation.collectErrors(loginValidator, passwordValidator);
+            var errors = FormErrors.of(errorMap);
+            var params = Map.of(
+                    "login", login,
+                    "errors", errors
+            );
+            JteResponses
+                    .ctx(ctx)
+                    .path("partials/register-form.jte")
+                    .params(params)
+                    .status(400)
+                    .render();
         }
     }
 
     public static void loginPage(Context ctx) {
         var styles = List.of("pages/auth.css");
-        var params = Map.of(
-                "styles", styles
-        );
+        var params = Map.of("styles", styles);
 
-        if(Session.isAuthenticated(ctx)) {
+        if (Session.isAuthenticated(ctx)) {
             ctx.redirect("/");
         }
-
-        ctx.render("pages/login.jte", params);
+        else {
+            JteResponses
+                    .ctx(ctx)
+                    .path("pages/login.jte")
+                    .params(params)
+                    .render();
+        }
     }
 
     public static void loginForm(Context ctx) {
-        ctx.render("partials/login-form.jte", Map.of());
+        JteResponses
+                .ctx(ctx)
+                .path("partials/login-form.jte")
+                .render();
     }
 
-    public static void login(@NotNull Context ctx) {
-        var authForm = FormBinder.bind(ctx, AuthRequest.class);
-        var result = Validator.validate(authForm);
+    public static void login(Context ctx) {
+        var loginValidator = ctx.formParamAsClass("login", String.class)
+                .check(Rules.required(), "Login is required")
+                .check(Rules.minLength(8), "Login must be at least 8 characters");
 
-        switch (result) {
-            case ValidationFailure(var errors) -> {
-                var params = Map.of(
-                        "login", authForm.login(),
-                        "errors", errors
-                );
-                ctx.status(400);
-                ctx.render("partials/login-form.jte", params);
-            }
-            case ValidationSuccess(var validAuthForm) -> {
-                var command = AuthCommand.of(validAuthForm);
-                var loginResult = AuthService.login(command);
+        var passwordValidator = ctx.formParamAsClass("password", String.class)
+                .check(Rules.required(), "Password is required")
+                .check(Rules.minLength(8), "Password must be at least 8 characters");
 
-                switch (loginResult) {
-                    case Failure(UserDoesNotExistError(var message)) -> {
-                        ctx.status(400);
-                        ctx.render("partials/login-form.jte", Map.of(
-                                "serviceError", message
-                        ));
-                    }
-                    case Success(var user) -> {
-                        Session.authenticate(ctx, user);
-                        ctx.render("partials/index.jte");
-                    }
+        if (Form.isValid(loginValidator, passwordValidator)) {
+            var login = loginValidator.get();
+            var password = passwordValidator.get();
+            var command = AuthCommand.of(login, password);
+            var loginResult = AuthService.login(command);
+
+            switch (loginResult) {
+                case Failure(UserDoesNotExistError(var message)) -> {
+                    var params = Map.of(
+                            "login", login,
+                            "errors", FormErrors.global(message)
+                    );
+                    JteResponses
+                            .ctx(ctx)
+                            .path("partials/login-form.jte")
+                            .params(params)
+                            .status(400)
+                            .render();
+                }
+
+                case Success(var user) -> {
+                    Session.authenticate(ctx, user);
+                    Headers.hxRedirect(ctx, "/");
                 }
             }
+        }
+        else {
+            var login = Form.inputValue(ctx, "login");
+            var errorMap = Validation.collectErrors(loginValidator, passwordValidator);
+            var errors = FormErrors.of(errorMap);
+            var params = Map.of(
+                    "login", login,
+                    "errors", errors
+            );
+            JteResponses
+                    .ctx(ctx)
+                    .path("partials/login-form.jte")
+                    .params(params)
+                    .status(400)
+                    .render();
         }
     }
 
     public static void logout(Context ctx) {
         Session.logout(ctx);
-        ctx.redirect("/login");
+        Headers.hxRedirect(ctx, "/login");
     }
 }

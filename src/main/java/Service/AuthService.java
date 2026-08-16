@@ -1,7 +1,11 @@
 package Service;
 
-import Data.Auth.Result.*;
-import Data.Operation.AuthCommand;
+import Data.Auth.Result.Error.LoginError;
+import Data.Auth.Result.Error.RegisterError;
+import Data.Auth.Result.Error.UserAlreadyExistsError;
+import Data.Auth.Result.Error.UserDoesNotExistError;
+import Data.Auth.Result.Value.User;
+import Data.Operation.Implementations.AuthCommand;
 import Data.Result.Failure;
 import Data.Result.Result;
 import Data.Result.Success;

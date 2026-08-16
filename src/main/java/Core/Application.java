@@ -1,6 +1,7 @@
 package Core;
 
 import Core.Configuration.*;
+import Core.Configuration.Log.RequestLogging;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.javalin.Javalin;
 
@@ -15,6 +16,7 @@ public class Application {
                 Startup.configure(config.startup);
                 StaticFiles.configure(dotenv, config.staticFiles);
                 Routes.configure(config.routes);
+                Json.configure(config);
             })
             .start(9000);
     }
