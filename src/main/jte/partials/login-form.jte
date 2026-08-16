@@ -1,8 +1,7 @@
-@import Data.Validation.ValidationErrors
+@import Helpers.FormErrors
 
 @param String login = null
-@param ValidationErrors errors = null
-@param String serviceError = null
+@param FormErrors errors = Helpers.FormErrors.empty()
 
 <form
     id="login-form"
@@ -12,6 +11,7 @@
         <legend>
             <h1>Login</h1>
         </legend>
+
         <div class="field">
             <label for="login">Login</label>
             <input
@@ -21,17 +21,16 @@
                 class="input primary"
                 value="${login}"
             >
+
             <div class="error-box">
-                @if(errors != null)
-                    !{var messages = errors.getMessages("login");}
-                    @if(!messages.isEmpty())
-                        <span class="error">
-                            ${messages.getLast().getMessage()}
-                        </span>
-                    @endif
+                @if(errors.has("login"))
+                    <span class="error">
+                        ${errors.field("login")}
+                    </span>
                 @endif
             </div>
         </div>
+
         <div class="field">
             <label for="password">Password</label>
             <input
@@ -40,25 +39,25 @@
                 id="password"
                 class="input primary"
             >
+
             <div class="error-box">
-                @if(errors != null)
-                    !{var messages = errors.getMessages("password");}
-                    @if(!messages.isEmpty())
-                        <span class="error">
-                            ${messages.getLast().getMessage()}
-                        </span>
-                    @endif
-                @elseif(serviceError != null)
+                @if(errors.has("password"))
                     <span class="error">
-                        ${serviceError}
+                        ${errors.field("password")}
+                    </span>
+                @elseif(errors.global() != null)
+                    <span class="error">
+                        ${errors.global()}
                     </span>
                 @endif
             </div>
         </div>
+
         <button
             class="btn primary"
             type="submit"
         >Submit</button>
+
         <div class="links">
             <a
                 class="link"

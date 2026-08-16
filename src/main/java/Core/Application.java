@@ -16,6 +16,7 @@ public class Application {
                 Startup.configure(config.startup);
                 StaticFiles.configure(dotenv, config.staticFiles);
                 Routes.configure(config.routes);
+                Json.configure(config);
             })
             .start(9000);
     }
