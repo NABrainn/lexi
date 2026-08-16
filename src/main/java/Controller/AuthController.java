@@ -80,10 +80,11 @@ public class AuthController {
             }
         }
         else {
-            var login = ctx.formParam("login");
-            var errors = FormErrors.of(Validation.collectErrors(loginValidator, passwordValidator));
+            var login = Form.inputValue(ctx, "login");
+            var errorMap = Validation.collectErrors(loginValidator, passwordValidator);
+            var errors = FormErrors.of(errorMap);
             var params = Map.of(
-                    "login", login == null ? "" : login,
+                    "login", login,
                     "errors", errors
             );
             JteResponses
@@ -154,8 +155,9 @@ public class AuthController {
             }
         }
         else {
-            var login = Form.paramAsString(ctx, "login");
-            var errors = FormErrors.of(Validation.collectErrors(loginValidator, passwordValidator));
+            var login = Form.inputValue(ctx, "login");
+            var errorMap = Validation.collectErrors(loginValidator, passwordValidator);
+            var errors = FormErrors.of(errorMap);
             var params = Map.of(
                     "login", login,
                     "errors", errors
