@@ -15,13 +15,11 @@ public class JteResponses {
 
     public static final class Builder {
         private final Context ctx;
-        private String path;
         private Map<String, ?> params;
         private int status;
 
         private Builder(Context ctx) {
             this.ctx = ctx;
-            this.path = null;
             this.params = Map.of();
             this.status = 200;
         }
@@ -30,14 +28,8 @@ public class JteResponses {
             return new Builder(ctx);
         }
 
-        public Builder path(String path) {
-            Objects.requireNonNull(path, "path cannot be null");
-            this.path = path;
-            return this;
-        }
-
         public Builder params(Map<String, ?> params) {
-            Objects.requireNonNull(path, "params cannot be null");
+            Objects.requireNonNull(params, "params cannot be null");
             this.params = params;
             return this;
         }
@@ -47,7 +39,8 @@ public class JteResponses {
             return this;
         }
 
-        public void render() {
+        public void render(String path) {
+            Objects.requireNonNull(path, "path cannot be null");
             ctx.status(status);
             ctx.render(path, params);
         }

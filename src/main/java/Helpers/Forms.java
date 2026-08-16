@@ -3,7 +3,7 @@ package Helpers;
 import io.javalin.http.Context;
 import io.javalin.validation.Validator;
 
-public class Form {
+public class Forms {
     public static boolean hasErrors(Validator<?>... validators) {
         for(var validator : validators) {
             if(!validator.errors().isEmpty()) {
