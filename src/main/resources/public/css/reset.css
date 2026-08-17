@@ -6,10 +6,6 @@
     padding: 0;
 }
 
-@view-transition {
-    navigation: auto;
-}
-
 :where(html) {
     color-scheme: light dark;
     hanging-punctuation: first allow-end last;
@@ -115,4 +111,14 @@
 
 :where([hidden]:not([hidden="until-found"])) {
     display: none !important;
+}
+
+@view-transition {
+    navigation: auto;
+}
+
+body {
+    font-family: var(--font-neo-grotesque), serif;
+    min-height: 100vh;
+    background-color: var(--surface);
 }
