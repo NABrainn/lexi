@@ -19,11 +19,9 @@ public class Routes {
     public static void configure(RoutesConfig config) {
         config.exception(NullPointerException.class, (_, ctx) -> ctx.status(500));
         config.error(500, (ctx) -> {
-            if(Headers.isHxRequest(ctx)) {
-                Headers.hxRedirect(ctx, "/error-500");
-            }
-            else {
-                ctx.redirect("/error-500");
+            switch (Headers.isHxRequest(ctx)) {
+                case true -> Headers.hxRedirect(ctx, "/error-500");
+                case false -> ctx.redirect("/error-500");
             }
         });
 

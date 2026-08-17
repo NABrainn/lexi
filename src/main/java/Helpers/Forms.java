@@ -1,11 +1,10 @@
 package Helpers;
 
 import io.javalin.http.Context;
-import io.javalin.validation.Validator;
 
 public class Forms {
-    public static boolean hasErrors(Validator<?>... validators) {
-        for(var validator : validators) {
+    public static boolean hasErrors(Form form) {
+        for(var validator : form.validators()) {
             if(!validator.errors().isEmpty()) {
                 return true;
             }
@@ -13,8 +12,8 @@ public class Forms {
         return false;
     }
 
-    public static boolean isValid(Validator<?>... validators) {
-        for(var validator : validators) {
+    public static boolean isValid(Form form) {
+        for(var validator : form.validators()) {
             if(!validator.errors().isEmpty()) {
                 return false;
             }
