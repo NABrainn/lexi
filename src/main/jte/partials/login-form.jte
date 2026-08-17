@@ -12,7 +12,7 @@
             <h1>Login</h1>
         </legend>
 
-        <div class="field">
+        <div>
             <label for="login">Login</label>
             <input
                 type="text"
@@ -24,14 +24,14 @@
 
             <div class="error-box">
                 @if(errors.has("login"))
-                    <span class="error">
+                    <span>
                         ${errors.field("login")}
                     </span>
                 @endif
             </div>
         </div>
 
-        <div class="field">
+        <div>
             <label for="password">Password</label>
             <input
                 type="password"
@@ -42,11 +42,11 @@
 
             <div class="error-box">
                 @if(errors.has("password"))
-                    <span class="error">
+                    <span>
                         ${errors.field("password")}
                     </span>
                 @elseif(errors.global() != null)
-                    <span class="error">
+                    <span>
                         ${errors.global()}
                     </span>
                 @endif
@@ -58,7 +58,7 @@
             type="submit"
         >Submit</button>
 
-        <div class="links">
+        <div>
             <a
                 class="link"
                 hx-get="/auth/register-form"

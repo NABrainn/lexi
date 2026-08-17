@@ -6,6 +6,10 @@
     padding: 0;
 }
 
+@view-transition {
+    navigation: auto;
+}
+
 :where(html) {
     color-scheme: light dark;
     hanging-punctuation: first allow-end last;

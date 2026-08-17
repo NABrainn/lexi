@@ -31,10 +31,7 @@
         <title>Lexi</title>
     </head>
     <body>
-        <main
-            id="layout"
-            class="layout"
-        >
+        <main id="layout">
             ${content}
         </main>
     </body>

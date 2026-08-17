@@ -10,19 +10,14 @@ import Service.AuthService;
 import io.javalin.http.Context;
 import io.javalin.validation.Validation;
 
-import java.util.List;
 import java.util.Map;
 
 public class AuthController {
     public static void registerPage(Context ctx) {
-        var styles = List.of("pages/auth.css");
-        var params = Map.of("styles", styles);
-
         switch (Session.isAuthenticated(ctx)) {
             case true -> ctx.redirect("/");
             case false ->
                     JteResponses.with(ctx)
-                            .params(params)
                             .render("pages/register.jte");
         }
     }
@@ -84,14 +79,10 @@ public class AuthController {
     }
 
     public static void loginPage(Context ctx) {
-        var styles = List.of("pages/auth.css");
-        var params = Map.of("styles", styles);
-
         switch (Session.isAuthenticated(ctx)) {
             case true -> ctx.redirect("/");
             case false ->
                     JteResponses.with(ctx)
-                            .params(params)
                             .render("pages/login.jte");
         }
     }

@@ -12,7 +12,7 @@
             <h1>Register</h1>
         </legend>
 
-        <div class="field">
+        <div>
             <label for="login">Login</label>
             <input
                 autocomplete="off"
@@ -25,14 +25,14 @@
 
             <div class="error-box">
                 @if(errors.has("login"))
-                    <span class="error">
+                    <span>
                         ${errors.field("login")}
                     </span>
                 @endif
             </div>
         </div>
 
-        <div class="field">
+        <div>
             <label for="password">Password</label>
             <input
                 autocomplete="new-password"
@@ -44,11 +44,11 @@
 
             <div class="error-box">
                 @if(errors.has("password"))
-                    <span class="error">
+                    <span>
                         ${errors.field("password")}
                     </span>
                 @elseif(errors.global() != null)
-                    <span class="error">
+                    <span>
                         ${errors.global()}
                     </span>
                 @endif
@@ -60,7 +60,7 @@
             type="submit"
         >Submit</button>
 
-        <div class="links">
+        <div>
             <a
                 class="link"
                 hx-get="/auth/login-form"
