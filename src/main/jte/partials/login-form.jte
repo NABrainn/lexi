@@ -4,15 +4,15 @@
 @param FormErrors errors = Helpers.FormErrors.empty()
 
 <form
+    class="container flex flex-col mx-auto w-1/5 mt-8"
     id="login-form"
     hx-post="/auth/login"
 >
-    <fieldset>
-        <legend>
+    <fieldset class="container flex flex-col gap-4">
+        <legend class="size-3">
             <h1>Login</h1>
         </legend>
-
-        <div>
+        <div class="container flex flex-col gap-2">
             <label for="login">Login</label>
             <input
                 type="text"
@@ -21,17 +21,16 @@
                 class="input primary"
                 value="${login}"
             >
-
-            <div class="error-box">
+            <div class="error-container">
                 @if(errors.has("login"))
-                    <span>
+                    <span class="error-message">
                         ${errors.field("login")}
                     </span>
                 @endif
             </div>
         </div>
 
-        <div>
+        <div class="container flex flex-col gap-2">
             <label for="password">Password</label>
             <input
                 type="password"
@@ -40,13 +39,13 @@
                 class="input primary"
             >
 
-            <div class="error-box">
+            <div class="error-container">
                 @if(errors.has("password"))
-                    <span>
+                    <span class="error-message">
                         ${errors.field("password")}
                     </span>
                 @elseif(errors.global() != null)
-                    <span>
+                    <span class="error-message">
                         ${errors.global()}
                     </span>
                 @endif
@@ -57,13 +56,10 @@
             class="btn primary"
             type="submit"
         >Submit</button>
-
-        <div>
-            <a
-                class="link"
-                hx-get="/auth/register-form"
-                hx-target="#login-form"
-            >Create account</a>
-        </div>
+        <a
+            class="link"
+            hx-get="/auth/register-form"
+            hx-target="#login-form"
+        >Create account</a>
     </fieldset>
 </form>

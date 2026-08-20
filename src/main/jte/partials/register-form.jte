@@ -4,15 +4,16 @@
 @param FormErrors errors = Helpers.FormErrors.empty()
 
 <form
+    class="container flex flex-col mx-auto w-1/5 mt-8"
     hx-post="/auth/register"
     id="register-form"
 >
-    <fieldset>
-        <legend>
+    <fieldset class="container flex flex-col gap-4">
+        <legend class="size-3">
             <h1>Register</h1>
         </legend>
 
-        <div>
+        <div class="container flex flex-col gap-2">
             <label for="login">Login</label>
             <input
                 autocomplete="off"
@@ -23,16 +24,16 @@
                 value="${login}"
             >
 
-            <div class="error-box">
+            <div class="error-container">
                 @if(errors.has("login"))
-                    <span>
+                    <span class="error-message">
                         ${errors.field("login")}
                     </span>
                 @endif
             </div>
         </div>
 
-        <div>
+        <div class="container flex flex-col gap-2">
             <label for="password">Password</label>
             <input
                 autocomplete="new-password"
@@ -42,13 +43,13 @@
                 class="input primary"
             >
 
-            <div class="error-box">
+            <div class="error-container">
                 @if(errors.has("password"))
-                    <span>
+                    <span class="error-message">
                         ${errors.field("password")}
                     </span>
                 @elseif(errors.global() != null)
-                    <span>
+                    <span class="error-message">
                         ${errors.global()}
                     </span>
                 @endif
@@ -60,12 +61,10 @@
             type="submit"
         >Submit</button>
 
-        <div>
-            <a
-                class="link"
-                hx-get="/auth/login-form"
-                hx-target="#register-form"
-            >Login instead</a>
-        </div>
+        <a
+            class="link"
+            hx-get="/auth/login-form"
+            hx-target="#register-form"
+        >Login instead</a>
     </fieldset>
 </form>
