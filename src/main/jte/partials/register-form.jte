@@ -60,11 +60,12 @@
             class="btn primary"
             type="submit"
         >Submit</button>
-
-        <a
-            class="link"
-            hx-get="/auth/login-form"
-            hx-target="#register-form"
-        >Login instead</a>
+        <div class="actions">
+            <a
+                class="link"
+                hx-get="/auth/login-form"
+                hx-target="#register-form"
+            >Login instead</a>
+        </div>
     </fieldset>
 </form>

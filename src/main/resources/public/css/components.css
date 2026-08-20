@@ -144,5 +144,9 @@ form {
                 color: var(--error);
             }
         }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+        }
     }
 }
