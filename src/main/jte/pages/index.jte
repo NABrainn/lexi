@@ -1,8 +1,10 @@
-@template.layout.page(content = @`
-    <div class="card">
-        witaj na mojej stronie
-        <div class="card">
-            podróżniku
-        </div>
-    </div>
-`)
+@import Data.Auth.Result.Value.User
+
+@param User user
+
+@template.layout.page(
+    user = user,
+    content = @`
+
+    `
+)

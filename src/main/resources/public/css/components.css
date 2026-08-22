@@ -1,6 +1,20 @@
 .container {
+    flex-direction: row;
+
     &:is(.flex) {
         display: flex;
+    }
+    &:is(.flex-1) {
+        flex: 1;
+    }
+    &:is(.flex-2) {
+        flex: 2;
+    }
+    &:is(.flex-3) {
+        flex: 3;
+    }
+    &:is(.flex-4) {
+        flex: 4;
     }
     &:is(.flex-row) {
         flex-direction: row;
@@ -41,6 +55,39 @@
     &:is(.mt-8) {
         margin-top: var(--size-8);
     }
+    &:is(.bg-primary-container) {
+        background-color: var(--primary-container);
+    }
+    &:is(.bg-secondary-container) {
+        background-color: var(--secondary-container);
+    }
+    &:is(.bg-tertiary-container) {
+        background-color: var(--tertiary-container);
+    }
+    &:is(.bg-error-container) {
+        background-color: var(--error-container);
+    }
+    &:is(.bg-surface-container-lowest) {
+        background-color: var(--surface-container-lowest);
+    }
+    &:is(.bg-surface-container-low) {
+        background-color: var(--surface-container-low);
+    }
+    &:is(.bg-surface-container) {
+        background-color: var(--surface-container);
+    }
+    &:is(.bg-surface-container-high) {
+        background-color: var(--surface-container-high);
+    }
+    &:is(.bg-surface-container-highest) {
+        background-color: var(--surface-container-highest);
+    }
+    &:is(.min-h-screen) {
+        min-height: 100vh;
+    }
+    &:is(.items-stretch) {
+        align-items: stretch;
+    }
 }
 
 a:is(.link) {
@@ -52,6 +99,9 @@ a:is(.link) {
     text-decoration-thickness: var(--border-size-1);
     text-underline-offset: var(--size-1);
     transition: color 150ms var(--ease-2), text-decoration-color 150ms var(--ease-2);
+    display: flex;
+    align-items: end;
+    gap: var(--size-3);
 
     &:hover {
         color: var(--surface-tint);
@@ -158,4 +208,29 @@ form {
             justify-content: space-between;
         }
     }
+}
+
+nav {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: var(--size-5);
+    justify-content: space-between;
+
+    .heading {
+        margin-bottom: var(--size-8);
+    }
+
+    ul:is(.list) {
+        display: flex;
+        flex-direction: column;
+        gap: var(--size-4);
+    }
+}
+
+.icon {
+    width: var(--size-5);
+    height: var(--size-5);
+    display: inline-block;
+    fill: var(--on-surface);
 }

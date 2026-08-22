@@ -6,7 +6,10 @@ import Helpers.Headers;
 import Helpers.JteResponses;
 import Helpers.Session;
 import io.javalin.config.RoutesConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
@@ -14,10 +17,19 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class Routes {
 
+    private static final Logger LOG = LoggerFactory.getLogger(Routes.class);
     private static final List<String> protectedPaths = List.of("/");
 
     public static void configure(RoutesConfig config) {
-        config.exception(NullPointerException.class, (_, ctx) -> ctx.status(500));
+        config.exception(NullPointerException.class, (e, ctx) -> {
+
+            if(e.getCause() != null) {
+                LOG.error(e.getCause().getMessage());
+            }
+            LOG.error(Arrays.toString(e.getStackTrace()));
+            LOG.error(e.getMessage());
+            ctx.status(500);
+        });
         config.error(500, (ctx) -> {
             switch (Headers.isHxRequest(ctx)) {
                 case true -> Headers.hxRedirect(ctx, "/error-500");

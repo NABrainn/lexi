@@ -18,6 +18,7 @@ public class AuthController {
             case true -> ctx.redirect("/");
             case false ->
                     JteResponses.with(ctx)
+                            .withUser()
                             .render("pages/register.jte");
         }
     }
@@ -83,6 +84,7 @@ public class AuthController {
             case true -> ctx.redirect("/");
             case false ->
                     JteResponses.with(ctx)
+                            .withUser()
                             .render("pages/login.jte");
         }
     }
