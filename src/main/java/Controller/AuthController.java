@@ -1,5 +1,6 @@
 package Controller;
 
+import Data.Auth.Result.Error.InvalidPasswordError;
 import Data.Auth.Result.Error.UserAlreadyExistsError;
 import Data.Auth.Result.Error.UserDoesNotExistError;
 import Data.Operation.Implementations.AuthCommand;
@@ -113,6 +114,16 @@ public class AuthController {
 
                 switch (loginResult) {
                     case Failure(UserDoesNotExistError(var message)) -> {
+                        var params = Map.of(
+                                "login", login,
+                                "errors", FormErrors.global(message)
+                        );
+                        JteResponses.with(ctx)
+                                .params(params)
+                                .status(400)
+                                .render("partials/login-form.jte");
+                    }
+                    case Failure(InvalidPasswordError(var message)) -> {
                         var params = Map.of(
                                 "login", login,
                                 "errors", FormErrors.global(message)

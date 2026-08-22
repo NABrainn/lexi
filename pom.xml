@@ -124,5 +124,10 @@
             <version>2.14.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.lucimber</groupId>
+            <artifactId>lucimber-bcrypt</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 </project>
