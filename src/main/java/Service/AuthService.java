@@ -36,7 +36,6 @@ public class AuthService {
     public static Result<User, LoginError> login(AuthCommand command) {
         var login = command.login();
         var password = command.password();
-
         var optionalUser = AuthRepository.findUserByLogin(login);
 
         if(optionalUser.isEmpty()) {
@@ -44,16 +43,16 @@ public class AuthService {
             return Failure.of(error);
         }
 
-        var optionalStoredPasswordHash = AuthRepository.getPasswordHash(login);
+        var optionalUserPasswordHash = AuthRepository.findUserPasswordHash(login);
 
-        if(optionalStoredPasswordHash.isEmpty()) {
+        if(optionalUserPasswordHash.isEmpty()) {
             throw new RuntimeException("Failed to read user hash");
         }
 
-        var storedPasswordHash = optionalStoredPasswordHash.get();
+        var userPasswordHash = optionalUserPasswordHash.get();
+        var passwordsDoNotMatch = !passwordManager.verifyPassword(password, userPasswordHash);
 
-
-        if(!passwordManager.verifyPassword(password, storedPasswordHash)) {
+        if(passwordsDoNotMatch) {
             var error = InvalidPasswordError.of("Invalid password");
             return Failure.of(error);
         }

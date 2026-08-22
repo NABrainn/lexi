@@ -84,7 +84,7 @@
                                     <span>Home</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="list-item">
                                 <a class="link" href="/vocabulary">
                                     <svg class="icon" aria-hidden="true">
                                         <use href="#icon-book"></use>
@@ -92,7 +92,7 @@
                                     <span>Vocabulary</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="list-item">
                                 <a class="link" href="/review">
                                     <svg class="icon" aria-hidden="true">
                                         <use href="#icon-brain"></use>
@@ -100,7 +100,7 @@
                                     <span>Review</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class="list-item">
                                 <a class="link" href="/settings">
                                     <svg class="icon" aria-hidden="true">
                                         <use href="#icon-cog"></use>
@@ -130,7 +130,10 @@
         @endif
         <section
             id="content-section"
-            class="container flex flex-col flex-4 items-stretch"
+            class="
+            flex-1 container flex flex-col items-stretch
+            lg:flex-5
+            "
         >
             <main class="container flex-1">
                 ${content}

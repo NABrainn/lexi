@@ -53,7 +53,7 @@ public class AuthRepository {
         });
     }
 
-    public static Optional<String> getPasswordHash(String login) {
+    public static Optional<String> findUserPasswordHash(String login) {
         return Database.connect().withHandle(handle -> {
             var sql = """
             SELECT password
