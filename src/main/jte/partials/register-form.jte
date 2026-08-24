@@ -4,7 +4,7 @@
 @param FormErrors errors = Helpers.FormErrors.empty()
 
 <form
-    class="container flex flex-col"
+    class="container flex flex-col w-full max-w-content-2 mx-auto my-8 p-5"
     hx-post="/auth/register"
     id="register-form"
 >

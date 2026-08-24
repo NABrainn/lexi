@@ -1,6 +1,12 @@
 .container {
     flex-direction: row;
 
+    &:is(.min-w-screen) {
+        min-height: 100vh;
+    }
+    &:is(.relative) {
+        position: relative;
+    }
     &:is(.flex) {
         display: flex;
     }
@@ -99,8 +105,20 @@
     &:is(.w-full) {
         width: 100%;
     }
+    &:is(.max-w-content-2) {
+        max-width: var(--size-content-2);
+    }
     &:is(.mx-auto) {
         margin: 0 auto;
+    }
+    &:is(.my-8) {
+        margin-block: var(--size-8);
+    }
+    &:is(.p-4) {
+        padding: var(--size-4);
+    }
+    &:is(.p-5) {
+        padding: var(--size-5);
     }
     &:is(.gap-1) {
         gap: var(--size-1);
@@ -150,6 +168,12 @@
     &:is(.items-stretch) {
         align-items: stretch;
     }
+    &:is(.items-center) {
+        align-items: center;
+    }
+    &:is(.justify-center) {
+        justify-content: center;
+    }
 }
 
 a:is(.link) {
@@ -195,10 +219,6 @@ form {
     border: var(--border-size-1) solid var(--outline-variant);
     border-radius: var(--radius-3);
     box-shadow: var(--shadow-3);
-    inline-size: min(calc(100% - var(--size-6)), 28rem);
-    margin-inline: auto;
-    margin-top: clamp(var(--size-8), 12vh, var(--size-11));
-    padding: clamp(var(--size-5), 4vw, var(--size-7));
 
     fieldset {
         gap: var(--size-4);
@@ -209,6 +229,12 @@ form {
 
             h1 {
                 font-size: var(--font-size-fluid-2);
+                letter-spacing: var(--font-letterspacing-0);
+                line-height: var(--font-lineheight-1);
+            }
+
+            h2 {
+                font-size: var(--font-size-fluid-1);
                 letter-spacing: var(--font-letterspacing-0);
                 line-height: var(--font-lineheight-1);
             }
@@ -260,37 +286,7 @@ form {
                 cursor: not-allowed;
             }
         }
-        button {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: var(--primary);
-            border-radius: var(--radius-2);
-            color: var(--on-primary);
-            font-size: var(--font-size-1);
-            font-weight: var(--font-weight-6);
-            inline-size: 100%;
-            min-block-size: 2.75rem;
-            margin-top: var(--size-1);
-            padding: var(--size-2) var(--size-3);
-            transition: background-color 150ms var(--ease-2), box-shadow 150ms var(--ease-2);
 
-            &:hover:not(:disabled) {
-                background-color: var(--surface-tint);
-                box-shadow: var(--shadow-1);
-            }
-
-            &:focus-visible {
-                box-shadow: 0 0 0 var(--border-size-2) var(--primary-container);
-                outline: none;
-            }
-
-            &:disabled {
-                background-color: var(--surface-container);
-                color: var(--on-surface-variant);
-                cursor: not-allowed;
-            }
-        }
         .error-container {
             font-size: var(--font-size-0);
             min-height: var(--size-3);
@@ -397,4 +393,46 @@ nav {
     height: var(--size-5);
     display: inline-block;
     fill: var(--on-surface);
+}
+
+button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary);
+    border-radius: var(--radius-2);
+    color: var(--on-primary);
+    font-size: var(--font-size-1);
+    font-weight: var(--font-weight-6);
+    inline-size: 100%;
+    min-block-size: 2.75rem;
+    padding: var(--size-2) var(--size-3);
+    transition: background-color 150ms var(--ease-2), box-shadow 150ms var(--ease-2);
+
+    &:hover:not(:disabled) {
+        background-color: var(--surface-tint);
+        box-shadow: var(--shadow-1);
+    }
+
+    &:focus-visible {
+        box-shadow: 0 0 0 var(--border-size-2) var(--primary-container);
+        outline: none;
+    }
+
+    &:disabled {
+        background-color: var(--surface-container);
+        color: var(--on-surface-variant);
+        cursor: not-allowed;
+    }
+
+    &:is(.fab) {
+        font-size: var(--font-size-6);
+        position: sticky;
+        width: var(--size-9);
+        height: var(--size-9);
+        top: 100%;
+        margin-left: auto;
+        right: var(--size-10);
+        margin-bottom: var(--size-10);
+    }
 }
