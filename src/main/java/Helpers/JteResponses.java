@@ -1,5 +1,6 @@
 package Helpers;
 
+import Data.Auth.Result.Value.User;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.output.StringOutput;
@@ -7,14 +8,18 @@ import gg.jte.resolve.DirectoryCodeResolver;
 import io.javalin.http.Context;
 
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class JteResponses {
     private static final TemplateEngine templateEngine = TemplateEngine.create(new DirectoryCodeResolver(Path.of("src/main/jte")), ContentType.Html);
 
     public static final class Builder {
         private final Context ctx;
+        private User user;
         private Map<String, ?> params;
         private int status;
 
@@ -26,6 +31,23 @@ public class JteResponses {
 
         public static Builder of(Context ctx) {
             return new Builder(ctx);
+        }
+
+        public Builder withUser() {
+            this.user = Session.getUser(ctx);
+            var nullableParams = new HashMap<String, Object>();
+            nullableParams.put("user", user);
+            this.params = Stream
+                    .concat(
+                            nullableParams.entrySet().stream(),
+                            params.entrySet().stream()
+                    )
+                    .collect(
+                            HashMap::new,
+                            (map, item) -> map.put(item.getKey(), item.getValue()),
+                            HashMap::putAll
+                    );
+            return this;
         }
 
         public Builder params(Map<String, ?> params) {
@@ -60,10 +82,5 @@ public class JteResponses {
         var output = new StringOutput();
         templateEngine.render(tmpl, Map.of(), output);
         return output.toString();
-    }
-
-    private static void render(Context ctx, String filePath, Map<String, ?> params, int status) {
-        ctx.status(status);
-        ctx.render(filePath, params);
     }
 }

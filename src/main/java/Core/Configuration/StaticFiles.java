@@ -49,5 +49,11 @@ public class StaticFiles {
             staticFiles.directory = baseDirectory + "/public/js";
             staticFiles.location = location;
         });
+
+        config.add(staticFiles -> {
+            staticFiles.hostedPath = "/public/img";
+            staticFiles.directory = baseDirectory + "/public/img";
+            staticFiles.location = location;
+        });
     }
 }

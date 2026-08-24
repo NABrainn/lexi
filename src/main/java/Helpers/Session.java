@@ -15,9 +15,18 @@ public class Session {
 
         ctx.req().changeSessionId();
 
-        session.setAttribute("userId", user.id());
-        session.setAttribute("username", user.username());
+        session.setAttribute("user", user);
         session.setAttribute("expiredAt", Instant.now().plusMillis(SESSION_DURATION));
+    }
+
+    public static User getUser(Context ctx) {
+        var session = getSession(ctx);
+
+        if(session == null) {
+            return null;
+        }
+
+        return (User) session.getAttribute("user");
     }
 
     public static boolean isAuthenticated(Context ctx) {

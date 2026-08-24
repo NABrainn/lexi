@@ -52,4 +52,20 @@ public class AuthRepository {
                     .findFirst();
         });
     }
+
+    public static Optional<String> findUserPasswordHash(String login) {
+        return Database.connect().withHandle(handle -> {
+            var sql = """
+            SELECT password
+            FROM users
+            WHERE login = :login
+            """;
+            return handle
+                    .createQuery(sql)
+                    .bind("login", login)
+                    .mapTo(String.class)
+                    .stream()
+                    .findFirst();
+        });
+    }
 }

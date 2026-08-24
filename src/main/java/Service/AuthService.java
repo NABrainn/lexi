@@ -1,19 +1,18 @@
 package Service;
 
-import Data.Auth.Result.Error.LoginError;
-import Data.Auth.Result.Error.RegisterError;
-import Data.Auth.Result.Error.UserAlreadyExistsError;
-import Data.Auth.Result.Error.UserDoesNotExistError;
+import Data.Auth.Result.Error.*;
 import Data.Auth.Result.Value.User;
 import Data.Operation.Implementations.AuthCommand;
 import Data.Result.Failure;
 import Data.Result.Result;
 import Data.Result.Success;
 import Data.Result.Unit;
-import Helpers.Hashing;
 import Repository.AuthRepository;
 
 public class AuthService {
+
+    private static final PasswordManager passwordManager = PasswordManager.of();
+
     public static Result<Unit, RegisterError> register(AuthCommand operation) {
         var loginAlreadyExists = AuthRepository.existsLogin(operation.login());
 
@@ -24,7 +23,7 @@ public class AuthService {
 
         var login = operation.login();
         var password = operation.password();
-        var hashedPassword = Hashing.convertToMd5(password);
+        var hashedPassword = passwordManager.hashPassword(password);
         var createdRows = AuthRepository.createUser(login, hashedPassword);
 
         if(createdRows == 0) {
@@ -36,10 +35,25 @@ public class AuthService {
 
     public static Result<User, LoginError> login(AuthCommand command) {
         var login = command.login();
+        var password = command.password();
         var optionalUser = AuthRepository.findUserByLogin(login);
 
         if(optionalUser.isEmpty()) {
             var error = UserDoesNotExistError.of("User with that name does not exist");
+            return Failure.of(error);
+        }
+
+        var optionalUserPasswordHash = AuthRepository.findUserPasswordHash(login);
+
+        if(optionalUserPasswordHash.isEmpty()) {
+            throw new RuntimeException("Failed to read user hash");
+        }
+
+        var userPasswordHash = optionalUserPasswordHash.get();
+        var passwordsDoNotMatch = !passwordManager.verifyPassword(password, userPasswordHash);
+
+        if(passwordsDoNotMatch) {
+            var error = InvalidPasswordError.of("Invalid password");
             return Failure.of(error);
         }
 

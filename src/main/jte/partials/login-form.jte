@@ -4,15 +4,15 @@
 @param FormErrors errors = Helpers.FormErrors.empty()
 
 <form
+    class="container flex flex-col w-full max-w-content-2 mx-auto my-8 p-5"
     id="login-form"
     hx-post="/auth/login"
 >
-    <fieldset>
-        <legend>
+    <fieldset class="container flex flex-col gap-4">
+        <legend class="size-3">
             <h1>Login</h1>
         </legend>
-
-        <div class="field">
+        <div class="container flex flex-col gap-2">
             <label for="login">Login</label>
             <input
                 type="text"
@@ -21,17 +21,16 @@
                 class="input primary"
                 value="${login}"
             >
-
-            <div class="error-box">
+            <div class="error-container">
                 @if(errors.has("login"))
-                    <span class="error">
+                    <span class="error-message">
                         ${errors.field("login")}
                     </span>
                 @endif
             </div>
         </div>
 
-        <div class="field">
+        <div class="container flex flex-col gap-2">
             <label for="password">Password</label>
             <input
                 type="password"
@@ -40,13 +39,13 @@
                 class="input primary"
             >
 
-            <div class="error-box">
+            <div class="error-container">
                 @if(errors.has("password"))
-                    <span class="error">
+                    <span class="error-message">
                         ${errors.field("password")}
                     </span>
                 @elseif(errors.global() != null)
-                    <span class="error">
+                    <span class="error-message">
                         ${errors.global()}
                     </span>
                 @endif
@@ -57,8 +56,7 @@
             class="btn primary"
             type="submit"
         >Submit</button>
-
-        <div class="links">
+        <div class="actions">
             <a
                 class="link"
                 hx-get="/auth/register-form"
