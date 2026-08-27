@@ -61,10 +61,10 @@ public class Routes {
                 JteResponses.with(ctx)
                         .render("pages/error-500.jte"));
 
-        var container = Container.of();
-        var authController = container.resolve(AuthController.class);
-        var lessonController = container.resolve(LessonController.class);
-        var indexController = container.resolve(IndexController.class);
+        var components = ApplicationComponents.of();
+        var authController = components.authController();
+        var lessonController = components.lessonController();
+        var indexController = components.indexController();
 
         config.apiBuilder(() -> {
            path("/auth", () -> {
