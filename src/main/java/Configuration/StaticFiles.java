@@ -1,4 +1,4 @@
-package Core.Configuration;
+package Configuration;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import io.javalin.config.StaticFilesConfig;

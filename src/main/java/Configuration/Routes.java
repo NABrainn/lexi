@@ -1,4 +1,4 @@
-package Core.Configuration;
+package Configuration;
 
 import Controller.AuthController;
 import Controller.IndexController;
@@ -10,7 +10,6 @@ import io.javalin.config.RoutesConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
@@ -20,7 +19,12 @@ public class Routes {
 
     private static final Logger LOG = LoggerFactory.getLogger(Routes.class);
     private static final List<String> protectedPaths = List.of("/");
-    private static final List<Class<? extends RuntimeException>> serverErrorExceptions = List.of(NullPointerException.class, RuntimeException.class);
+    private static final List<Class<? extends RuntimeException>> serverErrorExceptions = List.of(
+            NullPointerException.class,
+            RuntimeException.class,
+            IllegalArgumentException.class,
+            IllegalStateException.class
+    );
 
     public static void configure(RoutesConfig config) {
 
@@ -53,26 +57,28 @@ public class Routes {
             }
         }));
 
-        config.get("/error-500", (ctx) -> {
-            JteResponses.with(ctx)
-                    .render("pages/error-500.jte");
-        });
+        config.get("/error-500", (ctx) ->
+                JteResponses.with(ctx)
+                        .render("pages/error-500.jte"));
+
+        var components = ApplicationComponents.of();
+        var authController = components.authController();
+        var lessonController = components.lessonController();
+        var indexController = components.indexController();
 
         config.apiBuilder(() -> {
            path("/auth", () -> {
-               post("/register", AuthController::register);
-               post("/login", AuthController::login);
-               get("/logout", AuthController::logout);
-               get("/login-form", AuthController::loginForm);
-               get("/register-form", AuthController::registerForm);
+               post("/register", authController::register);
+               post("/login", authController::login);
+               get("/logout", authController::logout);
+               get("/login-form", authController::loginForm);
+               get("/register-form", authController::registerForm);
            });
-           path("/lessons", () -> {
-               get("/create", LessonController::create);
-           });
+           path("/lessons", () -> get("/create", lessonController::create));
            path("/", () -> {
-               get("", IndexController::indexPage);
-               get("/register", AuthController::registerPage);
-               get("/login", AuthController::loginPage);
+               get("", indexController::indexPage);
+               get("/register", authController::registerPage);
+               get("/login", authController::loginPage);
            });
         });
     }

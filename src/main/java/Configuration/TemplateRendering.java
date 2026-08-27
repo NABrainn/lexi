@@ -1,4 +1,4 @@
-package Core.Configuration;
+package Configuration;
 
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;

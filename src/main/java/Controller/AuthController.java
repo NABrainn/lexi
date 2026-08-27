@@ -14,7 +14,14 @@ import io.javalin.validation.Validation;
 import java.util.Map;
 
 public class AuthController {
-    public static void registerPage(Context ctx) {
+
+    private final AuthService authService;
+
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
+
+    public void registerPage(Context ctx) {
         switch (Session.isAuthenticated(ctx)) {
             case true -> ctx.redirect("/");
             case false ->
@@ -24,12 +31,12 @@ public class AuthController {
         }
     }
 
-    public static void registerForm(Context ctx) {
+    public void registerForm(Context ctx) {
         JteResponses.with(ctx)
                 .render("partials/register-form.jte");
     }
 
-    public static void register(Context ctx) {
+    public void register(Context ctx) {
         var loginValidator = ctx.formParamAsClass("login", String.class)
                 .check(Rules.required(), "Login is required")
                 .check(Rules.minLength(8), "Login must be at least 8 characters");
@@ -44,7 +51,7 @@ public class AuthController {
                 var login = loginValidator.get();
                 var password = passwordValidator.get();
                 var command = AuthCommand.of(login, password);
-                var registerResult = AuthService.register(command);
+                var registerResult = authService.register(command);
 
                 switch (registerResult) {
                     case Failure(UserAlreadyExistsError(var message)) -> {
@@ -80,7 +87,7 @@ public class AuthController {
         }
     }
 
-    public static void loginPage(Context ctx) {
+    public void loginPage(Context ctx) {
         switch (Session.isAuthenticated(ctx)) {
             case true -> ctx.redirect("/");
             case false ->
@@ -90,12 +97,12 @@ public class AuthController {
         }
     }
 
-    public static void loginForm(Context ctx) {
+    public void loginForm(Context ctx) {
         JteResponses.with(ctx)
                 .render("partials/login-form.jte");
     }
 
-    public static void login(Context ctx) {
+    public void login(Context ctx) {
         var loginValidator = ctx.formParamAsClass("login", String.class)
                 .check(Rules.required(), "Login is required")
                 .check(Rules.minLength(8), "Login must be at least 8 characters");
@@ -110,7 +117,7 @@ public class AuthController {
                 var login = loginValidator.get();
                 var password = passwordValidator.get();
                 var command = AuthCommand.of(login, password);
-                var loginResult = AuthService.login(command);
+                var loginResult = authService.login(command);
 
                 switch (loginResult) {
                     case Failure(UserDoesNotExistError(var message)) -> {
@@ -156,8 +163,12 @@ public class AuthController {
         }
     }
 
-    public static void logout(Context ctx) {
+    public void logout(Context ctx) {
         Session.logout(ctx);
         Headers.hxRedirect(ctx, "/login");
+    }
+
+    public static AuthController of(AuthService authService) {
+        return new AuthController(authService);
     }
 }

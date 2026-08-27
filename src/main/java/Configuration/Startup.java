@@ -1,4 +1,4 @@
-package Core.Configuration;
+package Configuration;
 
 import io.javalin.config.StartupConfig;
 

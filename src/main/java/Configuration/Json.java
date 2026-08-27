@@ -1,4 +1,4 @@
-package Core.Configuration;
+package Configuration;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

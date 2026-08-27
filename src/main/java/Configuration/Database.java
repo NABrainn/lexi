@@ -1,4 +1,4 @@
-package Core.Configuration;
+package Configuration;
 
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.statement.SqlStatements;
@@ -9,7 +9,7 @@ public class Database {
     private static final Logger LOG = LoggerFactory.getLogger(Database.class);
     private static final String URL = "jdbc:sqlite:lexi.db";
 
-    public static Jdbi connect() {
+    public static Jdbi getConnection() {
         var connection = Jdbi.create(URL);
         connection
                 .getConfig(SqlStatements.class)
