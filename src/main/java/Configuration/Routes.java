@@ -1,8 +1,5 @@
 package Configuration;
 
-import Controller.AuthController;
-import Controller.IndexController;
-import Controller.LessonController;
 import Helpers.Headers;
 import Helpers.JteResponses;
 import Helpers.Session;
@@ -61,10 +58,9 @@ public class Routes {
                 JteResponses.with(ctx)
                         .render("pages/error-500.jte"));
 
-        var components = ApplicationComponents.of();
-        var authController = components.authController();
-        var lessonController = components.lessonController();
-        var indexController = components.indexController();
+        var authController = Controllers.authController();
+        var lessonController = Controllers.lessonController();
+        var indexController = Controllers.indexController();
 
         config.apiBuilder(() -> {
            path("/auth", () -> {
