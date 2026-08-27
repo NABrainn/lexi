@@ -7,7 +7,7 @@ import Repository.AuthRepository;
 import Service.AuthService;
 import Service.PasswordManager;
 
-public class Controllers {
+public class Components {
     private static final PasswordManager passwordManager = PasswordManager.of();
     private static final AuthRepository authRepository = AuthRepository.of(Database.getConnection());
     private static final AuthService authService = AuthService.of(passwordManager, authRepository);

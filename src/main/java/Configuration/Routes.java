@@ -58,9 +58,9 @@ public class Routes {
                 JteResponses.with(ctx)
                         .render("pages/error-500.jte"));
 
-        var authController = Controllers.authController();
-        var lessonController = Controllers.lessonController();
-        var indexController = Controllers.indexController();
+        var authController = Components.authController();
+        var lessonController = Components.lessonController();
+        var indexController = Components.indexController();
 
         config.apiBuilder(() -> {
            path("/auth", () -> {
