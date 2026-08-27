@@ -1,13 +1,20 @@
 package Repository;
 
-import Core.Configuration.Database;
 import Data.Auth.Result.Value.User;
+import org.jdbi.v3.core.Jdbi;
 
 import java.util.Optional;
 
 public class AuthRepository {
-    public static boolean existsLogin(String login) {
-        return Database.connect().withHandle(handle -> {
+
+    private final Jdbi jdbi;
+
+    public AuthRepository(Jdbi jdbi) {
+        this.jdbi = jdbi;
+    }
+
+    public boolean existsLogin(String login) {
+        return jdbi.withHandle(handle -> {
             var sql = """
             SELECT login
             FROM users
@@ -23,8 +30,8 @@ public class AuthRepository {
         });
     }
 
-    public static int createUser(String login, String password) {
-        return Database.connect().withHandle(handle -> {
+    public int createUser(String login, String password) {
+        return jdbi.withHandle(handle -> {
             var sql = """
             INSERT INTO users (login, password)
             VALUES (:login, :password)
@@ -37,8 +44,8 @@ public class AuthRepository {
         });
     }
 
-    public static Optional<User> findUserByLogin(String login) {
-        return Database.connect().withHandle(handle -> {
+    public Optional<User> findUserByLogin(String login) {
+        return jdbi.withHandle(handle -> {
             var sql = """
             SELECT id, login
             FROM users
@@ -53,8 +60,8 @@ public class AuthRepository {
         });
     }
 
-    public static Optional<String> findUserPasswordHash(String login) {
-        return Database.connect().withHandle(handle -> {
+    public Optional<String> findUserPasswordHash(String login) {
+        return jdbi.withHandle(handle -> {
             var sql = """
             SELECT password
             FROM users
@@ -67,5 +74,9 @@ public class AuthRepository {
                     .stream()
                     .findFirst();
         });
+    }
+
+    public static AuthRepository of(Jdbi jdbi) {
+        return new AuthRepository(jdbi);
     }
 }

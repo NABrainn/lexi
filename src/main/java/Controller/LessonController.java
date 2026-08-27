@@ -6,7 +6,7 @@ import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
 public class LessonController {
-    public static void create(@NotNull Context ctx) {
+    public void create(@NotNull Context ctx) {
         switch (Headers.isHxRequest(ctx)) {
             case true ->
                     JteResponses.with(ctx)
@@ -16,5 +16,9 @@ public class LessonController {
                         .withUser()
                         .render("pages/create-lesson-page.jte");
         }
+    }
+
+    public static LessonController of() {
+        return new LessonController();
     }
 }
