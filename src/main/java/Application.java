@@ -1,3 +1,4 @@
+import Configuration.*;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.javalin.Javalin;
 
@@ -6,12 +7,12 @@ public class Application {
         var dotenv = Dotenv.load();
         Javalin
                 .create(config -> {
-                    Configuration.Concurrency.configure(config.concurrency);
-                    Configuration.TemplateRendering.configure(dotenv, config);
-                    Configuration.Startup.configure(config.startup);
-                    Configuration.StaticFiles.configure(dotenv, config.staticFiles);
-                    Configuration.Routes.configure(config.routes);
-                    Configuration.Json.configure(config);
+                    Concurrency.configure(config.concurrency);
+                    TemplateRendering.configure(dotenv, config);
+                    Startup.configure(config.startup);
+                    StaticFiles.configure(dotenv, config.staticFiles);
+                    Routes.configure(config.routes);
+                    Json.configure(config);
                 })
                 .start(9000);
     }
