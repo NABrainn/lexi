@@ -1,3 +1,6 @@
+.text-error {
+    color: var(--error);
+}
 .container {
     flex-direction: row;
 
@@ -174,6 +177,10 @@
     &:is(.justify-center) {
         justify-content: center;
     }
+
+    &:is(.text-center) {
+        text-align: center;
+    }
 }
 
 a:is(.link) {
@@ -212,6 +219,22 @@ a:is(.link) {
     box-shadow: var(--shadow-1);
     color: var(--on-surface);
     padding: var(--size-5);
+
+    .img {
+
+    }
+
+    .title {
+
+    }
+
+    .body {
+
+    }
+
+    .actions {
+
+    }
 }
 
 form {
