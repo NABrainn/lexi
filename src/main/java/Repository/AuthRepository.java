@@ -54,7 +54,11 @@ public class AuthRepository {
             return handle
                     .createQuery(sql)
                     .bind("login", login)
-                    .map((rs, _) -> User.of(rs.getLong("id"), rs.getString("login")))
+                    .map((rs, _) -> {
+                        var rsId = rs.getInt("id");
+                        var rsLogin = rs.getString("login");
+                        return User.of(rsId, rsLogin);
+                    })
                     .stream()
                     .findFirst();
         });

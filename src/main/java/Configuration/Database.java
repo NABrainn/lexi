@@ -15,6 +15,7 @@ public class Database {
                 .getConfig(SqlStatements.class)
                 .addExceptionHandler((handler) -> {
                     LOG.error(handler.getSQLState());
+                    LOG.error(handler.getMessage());
                     return new RuntimeException(handler.getMessage());
                 });
         return connection;
