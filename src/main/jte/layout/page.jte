@@ -1,4 +1,4 @@
-@import Data.Auth.Result.Value.User
+@import Data.Auth.Result.Success.User
 @import gg.jte.Content
 @import java.util.List
 
