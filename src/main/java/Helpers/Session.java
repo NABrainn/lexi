@@ -1,6 +1,6 @@
 package Helpers;
 
-import Data.Auth.Result.Value.User;
+import Data.Auth.Result.Success.User;
 import io.javalin.http.Context;
 import jakarta.servlet.http.HttpSession;
 
