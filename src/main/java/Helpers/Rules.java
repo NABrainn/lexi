@@ -1,6 +1,7 @@
 package Helpers;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import kotlin.jvm.functions.Function1;
 
@@ -10,11 +11,11 @@ public final class Rules {
     private Rules() {}
 
     public static Function1<String, Boolean> notEmpty() {
-        return value -> value == null || !value.isEmpty();
+        return value -> value == null || !(value.trim()).isEmpty();
     }
 
-    public static Function1<String, Boolean> required() {
-        return value -> value != null && !value.isBlank();
+    public static Function1<Object, Boolean> required() {
+        return Objects::nonNull;
     }
 
     public static Function1<String, Boolean> minLength(int minimum) {
