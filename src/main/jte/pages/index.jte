@@ -1,4 +1,4 @@
-@import Data.Auth.Result.Value.User
+@import Data.Auth.Result.Success.User
 
 @param User user
 
