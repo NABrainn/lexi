@@ -1,4 +1,4 @@
-@param Data.Auth.Result.Value.User user = null
+@param Data.Auth.Result.Success.User user = null
 
 @template.layout.page(
     user = user,
