@@ -1,7 +1,7 @@
 package Service;
 
 import Data.Auth.Result.Error.*;
-import Data.Auth.Result.Value.User;
+import Data.Auth.Result.Success.User;
 import Data.Operation.Implementations.AuthCommand;
 import Data.Result.Failure;
 import Data.Result.Result;
