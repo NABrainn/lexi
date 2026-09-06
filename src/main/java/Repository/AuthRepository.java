@@ -1,6 +1,6 @@
 package Repository;
 
-import Data.Auth.Result.Value.User;
+import Data.Auth.Result.Success.User;
 import org.jdbi.v3.core.Jdbi;
 
 import java.util.Optional;
