@@ -9,7 +9,6 @@ import Data.Result.Success;
 import Helpers.*;
 import Service.AuthService;
 import io.javalin.http.Context;
-import io.javalin.validation.Validation;
 
 import java.util.Map;
 
@@ -56,11 +55,11 @@ public class AuthController {
                 switch (registerResult) {
                     case Failure(UserAlreadyExistsError(var message)) -> {
                         var params = Map.of(
-                                "login", login,
-                                "errors", FormErrors.global(message)
+                                "login", login
                         );
 
                         JteResponses.with(ctx)
+                                .withError(message)
                                 .params(params)
                                 .status(400)
                                 .render("partials/register-form.jte");
@@ -73,13 +72,11 @@ public class AuthController {
             }
             case false -> {
                 var login = Forms.readInputValue(ctx, "login");
-                var errorMap = Validation.collectErrors(loginValidator, passwordValidator);
-                var errors = FormErrors.of(errorMap);
                 var params = Map.of(
-                        "login", login,
-                        "errors", errors
+                        "login", login
                 );
                 JteResponses.with(ctx)
+                        .withErrors(loginValidator, passwordValidator)
                         .params(params)
                         .status(400)
                         .render("partials/register-form.jte");
@@ -92,8 +89,8 @@ public class AuthController {
             case true -> ctx.redirect("/");
             case false ->
                     JteResponses.with(ctx)
-                            .withUser()
-                            .render("pages/login.jte");
+                    .withUser()
+                    .render("pages/login.jte");
         }
     }
 
@@ -122,20 +119,22 @@ public class AuthController {
                 switch (loginResult) {
                     case Failure(UserDoesNotExistError(var message)) -> {
                         var params = Map.of(
-                                "login", login,
-                                "errors", FormErrors.global(message)
+                                "login", login
                         );
+
                         JteResponses.with(ctx)
+                                .withError(message)
                                 .params(params)
                                 .status(400)
                                 .render("partials/login-form.jte");
                     }
                     case Failure(InvalidPasswordError(var message)) -> {
                         var params = Map.of(
-                                "login", login,
-                                "errors", FormErrors.global(message)
+                                "login", login
                         );
+
                         JteResponses.with(ctx)
+                                .withError(message)
                                 .params(params)
                                 .status(400)
                                 .render("partials/login-form.jte");
@@ -149,13 +148,12 @@ public class AuthController {
             }
             case false -> {
                 var login = Forms.readInputValue(ctx, "login");
-                var errorMap = Validation.collectErrors(loginValidator, passwordValidator);
-                var errors = FormErrors.of(errorMap);
                 var params = Map.of(
-                        "login", login,
-                        "errors", errors
+                        "login", login
                 );
+
                 JteResponses.with(ctx)
+                        .withErrors(loginValidator, passwordValidator)
                         .params(params)
                         .status(400)
                         .render("partials/login-form.jte");
