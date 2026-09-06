@@ -1,6 +1,5 @@
-@import Data.Auth.Result.Value.User
+@import Data.Auth.Result.Success.User
 @import Helpers.FormErrors
-@import Helpers.Session
 @import java.util.List
 
 @param User user = null
