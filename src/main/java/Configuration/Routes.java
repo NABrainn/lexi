@@ -47,6 +47,7 @@ public class Routes {
                 }
             });
         });
+
         protectedPaths.forEach(path -> config.before(path, ctx -> {
             Session.refresh(ctx);
             if(!Session.isAuthenticated(ctx)) {
@@ -70,7 +71,7 @@ public class Routes {
                get("/login-form", authController::loginForm);
                get("/register-form", authController::registerForm);
            });
-           path("/lessons", () -> get("/create", lessonController::create));
+           path("/lessons", () -> get("/create", lessonController::createLessonForm));
            path("/", () -> {
                get("", indexController::indexPage);
                get("/register", authController::registerPage);
