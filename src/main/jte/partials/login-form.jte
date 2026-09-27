@@ -7,8 +7,6 @@
     id="login-form"
     class="form-container container flex flex-col p-5 gap-4 w-1/5 mx-auto mt-8"
 >
-    @template.components.badge(badge = "1", content = @`hgasdfrqwerewqsafi`, position = "after")
-
     <form
         class="container flex flex-col"
         data-on:submit="@post('/auth/login', { contentType: 'form' })">
@@ -55,16 +53,10 @@
                 </div>
             </div>
 
-            <button
-                class="btn primary"
-                type="submit"
-            >Submit</button>
+            @template.components.button(text = "Submit", variant = "primary")
         </fieldset>
     </form>
     <div class="actions">
-        <a
-            class="link"
-            href="/register"
-        >Create account</a>
+        @template.components.button(href= "/register", text = "Create account", kind = "basic", variant = "primary")
     </div>
 </div>

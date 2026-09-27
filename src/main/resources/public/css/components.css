@@ -228,6 +228,246 @@
     }
 }
 
+.material-button {
+    --button-color: var(--primary);
+    --button-on-color: var(--on-primary);
+    --button-container: var(--primary-container);
+    --button-on-container: var(--on-primary-container);
+
+
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--size-2);
+
+    min-height: 40px;
+    padding-inline: var(--size-5);
+    border: 1px solid transparent;
+    border-radius: var(--radius-round);
+
+    background: transparent;
+    color: var(--button-color);
+    font: inherit;
+    font-size: var(--font-size-fluid-0);
+    font-weight: var(--font-weight-6);
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+
+    transition:
+            background-color 180ms var(--ease-3),
+            box-shadow 180ms var(--ease-3),
+            transform 180ms var(--ease-3);
+}
+
+.material-button {
+    --button-color: var(--primary);
+    --button-on-color: var(--on-primary);
+    --button-container: var(--primary-container);
+    --button-on-container: var(--on-primary-container);
+    --ripple-color: currentColor;
+
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--size-2);
+    min-height: 40px;
+    padding-inline: var(--size-5);
+    border: 1px solid transparent;
+    border-radius: var(--radius-round);
+    background: transparent;
+    color: var(--button-color);
+    font: inherit;
+    font-size: var(--font-size-0);
+    font-weight: var(--font-weight-6);
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    & > :not(.material-button__ripple) {
+        position: relative;
+        z-index: 1;
+    }
+
+    transition:
+            background-color 180ms var(--ease-3),
+            box-shadow 180ms var(--ease-3);
+
+    &.secondary {
+        --button-color: var(--secondary);
+        --button-on-color: var(--on-secondary);
+        --button-container: var(--secondary-container);
+        --button-on-container: var(--on-secondary-container);
+    }
+
+    &.tertiary {
+        --button-color: var(--tertiary);
+        --button-on-color: var(--on-tertiary);
+        --button-container: var(--tertiary-container);
+        --button-on-container: var(--on-tertiary-container);
+    }
+
+    &.error {
+        --button-color: var(--error);
+        --button-on-color: var(--on-error);
+        --button-container: var(--error-container);
+        --button-on-container: var(--on-error-container);
+    }
+
+    .material-button__icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: none;
+        width: 24px;
+        height: 24px;
+        font-size: 24px;
+
+        & svg {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+    }
+
+    &:is(.text, .basic) {
+        padding-inline: var(--size-3);
+
+        &:hover {
+            background: color-mix(in srgb, var(--button-color) 8%, transparent);
+        }
+    }
+
+    &.elevated {
+        background: var(--surface-container-low);
+        box-shadow: var(--shadow-2);
+
+        &:hover {
+            background: var(--surface-container);
+            box-shadow: var(--shadow-3);
+        }
+    }
+
+    &.outlined {
+        border-color: var(--outline);
+
+        &:hover {
+            background: color-mix(in srgb, var(--button-color) 8%, transparent);
+        }
+    }
+
+    &.filled {
+        --ripple-color: var(--button-on-color);
+
+        background: var(--button-color);
+        color: var(--button-on-color);
+
+        &:hover {
+            background: color-mix(in srgb, var(--button-color) 88%, var(--on-surface));
+        }
+    }
+
+    &.tonal {
+        --ripple-color: var(--button-on-container);
+
+        background: var(--button-container);
+        color: var(--button-on-container);
+
+        &:hover {
+            background: color-mix(
+                    in srgb,
+                    var(--button-container) 88%,
+                    var(--button-on-container)
+            );
+        }
+    }
+
+    &.icon {
+        width: 40px;
+        min-height: 40px;
+        padding: 0;
+
+        &:hover {
+            background: color-mix(in srgb, var(--button-color) 8%, transparent);
+        }
+    }
+
+    &:is(.fab, .mini-fab, .extended-fab) {
+        --ripple-color: var(--button-on-container);
+
+        border-radius: var(--radius-3);
+        background: var(--button-container);
+        color: var(--button-on-container);
+        box-shadow: var(--shadow-3);
+
+        &:hover {
+            background: color-mix(
+                    in srgb,
+                    var(--button-container) 88%,
+                    var(--button-on-container)
+            );
+            box-shadow: var(--shadow-4);
+        }
+    }
+
+    &.fab {
+        width: 56px;
+        min-height: 56px;
+        padding: 0;
+    }
+
+    &.mini-fab {
+        width: 40px;
+        min-height: 40px;
+        padding: 0;
+    }
+
+    &.extended-fab {
+        min-height: 56px;
+        padding-inline: var(--size-4);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--button-color);
+        outline-offset: 3px;
+    }
+
+    &:disabled {
+        background: color-mix(in srgb, var(--on-surface) 12%, var(--surface));
+        color: color-mix(in srgb, var(--on-surface) 38%, var(--surface));
+        border-color: transparent;
+        box-shadow: none;
+        cursor: default;
+    }
+
+    &:is(.text, .basic, .outlined, .icon):disabled {
+        background: transparent;
+    }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+    .material-button {
+        transition: none;
+
+        .material-button__ripple {
+            animation: none;
+        }
+    }
+}
+
 a:is(.link) {
     color: var(--primary);
     cursor: pointer;

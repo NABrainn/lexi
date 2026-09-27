@@ -58,16 +58,11 @@
                 </div>
             </div>
 
-            <button
-                class="btn primary"
-                type="submit"
-            >Submit</button>
+            @template.components.button(text = "Submit", variant = "primary")
         </fieldset>
     </form>
     <div class="actions">
-        <a
-            class="link"
-            href="/login"
-        >Login instead</a>
+        @template.components.button(href= "/login", text = "Login instead", kind = "basic", variant = "primary")
+
     </div>
 </div>
