@@ -7,6 +7,8 @@
     id="login-form"
     class="form-container container flex flex-col p-5 gap-4 w-1/5 mx-auto mt-8"
 >
+    @template.components.badge(badge = "1", content = @`hgasdfrqwerewqsafi`, position = "after")
+
     <form
         class="container flex flex-col"
         data-on:submit="@post('/auth/login', { contentType: 'form' })">
