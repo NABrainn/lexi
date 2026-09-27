@@ -9,12 +9,9 @@
             id="home-content"
             class="container relative min-w-screen"
         >
-            <button
-                class="button fab"
-                hx-get="/lessons/create"
-                hx-target="#home-content"
-                hx-push-url="true"
-            >+</button>
+                <button class="button fab">
+                    <a href="/lessons/create">+</a>
+                </button>
         </div>
     `
 )

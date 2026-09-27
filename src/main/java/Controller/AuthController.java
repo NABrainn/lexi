@@ -32,6 +32,7 @@ public class AuthController {
 
     public void registerForm(Context ctx) {
         JteResponses.with(ctx)
+                .patch("#login-form")
                 .render("partials/register-form.jte");
     }
 
@@ -54,31 +55,27 @@ public class AuthController {
 
                 switch (registerResult) {
                     case Failure(UserAlreadyExistsError(var message)) -> {
-                        var params = Map.of(
-                                "login", login
-                        );
-
+                        var params = Map.of("login", login);
                         JteResponses.with(ctx)
                                 .withError(message)
                                 .params(params)
-                                .status(400)
+                                .patch("#register-form")
                                 .render("partials/register-form.jte");
                     }
 
                     case Success(var _) ->
                             JteResponses.with(ctx)
+                                    .patch("#register-form")
                                     .render("partials/login-form.jte");
                 }
             }
             case false -> {
                 var login = Forms.readInputValue(ctx, "login");
-                var params = Map.of(
-                        "login", login
-                );
+                var params = Map.of("login", login);
                 JteResponses.with(ctx)
                         .withErrors(loginValidator, passwordValidator)
                         .params(params)
-                        .status(400)
+                        .patch("#register-form")
                         .render("partials/register-form.jte");
             }
         }
@@ -89,13 +86,14 @@ public class AuthController {
             case true -> ctx.redirect("/");
             case false ->
                     JteResponses.with(ctx)
-                    .withUser()
-                    .render("pages/login.jte");
+                        .withUser()
+                        .render("pages/login.jte");
         }
     }
 
     public void loginForm(Context ctx) {
         JteResponses.with(ctx)
+                .patch("#login-form")
                 .render("partials/login-form.jte");
     }
 
@@ -107,7 +105,6 @@ public class AuthController {
         var passwordValidator = ctx.formParamAsClass("password", String.class)
                 .check(Rules.required(), "Password is required")
                 .check(Rules.minLength(8), "Password must be at least 8 characters");
-
         var form = Form.of(loginValidator, passwordValidator);
         switch (Forms.isValid(form)) {
             case true -> {
@@ -118,44 +115,35 @@ public class AuthController {
 
                 switch (loginResult) {
                     case Failure(UserDoesNotExistError(var message)) -> {
-                        var params = Map.of(
-                                "login", login
-                        );
-
+                        var params = Map.of("login", login);
                         JteResponses.with(ctx)
                                 .withError(message)
                                 .params(params)
-                                .status(400)
+                                .patch("#login-form")
                                 .render("partials/login-form.jte");
                     }
                     case Failure(InvalidPasswordError(var message)) -> {
-                        var params = Map.of(
-                                "login", login
-                        );
-
+                        var params = Map.of("login", login);
                         JteResponses.with(ctx)
                                 .withError(message)
                                 .params(params)
-                                .status(400)
+                                .patch("#login-form")
                                 .render("partials/login-form.jte");
                     }
 
                     case Success(var user) -> {
                         Session.authenticate(ctx, user);
-                        Headers.hxRedirect(ctx, "/");
+                        ctx.redirect("/");
                     }
                 }
             }
             case false -> {
                 var login = Forms.readInputValue(ctx, "login");
-                var params = Map.of(
-                        "login", login
-                );
-
+                var params = Map.of("login", login);
                 JteResponses.with(ctx)
                         .withErrors(loginValidator, passwordValidator)
                         .params(params)
-                        .status(400)
+                        .patch("#login-form")
                         .render("partials/login-form.jte");
             }
         }
@@ -163,7 +151,7 @@ public class AuthController {
 
     public void logout(Context ctx) {
         Session.logout(ctx);
-        Headers.hxRedirect(ctx, "/login");
+        ctx.redirect("/login");
     }
 
     public static AuthController of(AuthService authService) {

@@ -26,6 +26,7 @@ public class JteResponses {
 
         private Builder(Context ctx) {
             this.ctx = ctx;
+
             this.params = Map.of();
             this.status = 200;
         }
@@ -66,7 +67,9 @@ public class JteResponses {
 
         public Builder params(Map<String, ?> params) {
             Objects.requireNonNull(params, "params cannot be null");
-            this.params = params;
+            this.params = Stream
+                    .concat(this.params.entrySet().stream(), params.entrySet().stream())
+                    .collect(HashMap::new, (map, item) -> map.put(item.getKey(), item.getValue()), HashMap::putAll);
             return this;
         }
 
@@ -75,9 +78,23 @@ public class JteResponses {
             return this;
         }
 
+        public Builder patch(String element) {
+            Objects.requireNonNull(element, "element cannot be null");
+            ctx.header("datastar-selector", element);
+            return this;
+        }
+
+        public Builder mode(String mode) {
+            Objects.requireNonNull(mode, "element cannot be null");
+            ctx.header("datastar-selector", mode);
+            return this;
+        }
+
         public void render(String path) {
             Objects.requireNonNull(path, "path cannot be null");
             ctx.status(status);
+            ctx.header("datastar-mode", "outer");
+            ctx.header("datastar-use-view-transition", "true");
             ctx.render(path, params);
         }
     }

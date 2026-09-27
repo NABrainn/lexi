@@ -237,7 +237,7 @@ a:is(.link) {
     }
 }
 
-form {
+.form-container {
     background-color: var(--surface-container-lowest);
     border: var(--border-size-1) solid var(--outline-variant);
     border-radius: var(--radius-3);
