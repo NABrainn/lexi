@@ -9,9 +9,7 @@
             id="home-content"
             class="container relative min-w-screen"
         >
-                <button class="button fab">
-                    <a href="/lessons/create">+</a>
-                </button>
+            @template.components.button(text = "+", href = "/lessons/create", kind = "fab")
         </div>
     `
 )
