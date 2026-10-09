@@ -1,17 +1,18 @@
 package Helpers;
 
-import Data.Auth.Result.Value.User;
+import Data.Auth.Result.Success.User;
 import gg.jte.ContentType;
 import gg.jte.TemplateEngine;
 import gg.jte.output.StringOutput;
 import gg.jte.resolve.DirectoryCodeResolver;
 import io.javalin.http.Context;
+import io.javalin.validation.Validation;
+import io.javalin.validation.Validator;
 
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class JteResponses {
@@ -25,6 +26,7 @@ public class JteResponses {
 
         private Builder(Context ctx) {
             this.ctx = ctx;
+
             this.params = Map.of();
             this.status = 200;
         }
@@ -38,21 +40,36 @@ public class JteResponses {
             var nullableParams = new HashMap<String, Object>();
             nullableParams.put("user", user);
             this.params = Stream
-                    .concat(
-                            nullableParams.entrySet().stream(),
-                            params.entrySet().stream()
-                    )
-                    .collect(
-                            HashMap::new,
-                            (map, item) -> map.put(item.getKey(), item.getValue()),
-                            HashMap::putAll
-                    );
+                    .concat(nullableParams.entrySet().stream(), params.entrySet().stream())
+                    .collect(HashMap::new, (map, item) -> map.put(item.getKey(), item.getValue()), HashMap::putAll);
+            return this;
+        }
+
+        public Builder withErrors(Validator<?>... validators) {
+            var nullableParams = new HashMap<String, Object>();
+            var errorMap = Validation.collectErrors(validators);
+            var errors = FormErrors.of(errorMap);
+            nullableParams.put("errors", errors);
+            this.params = Stream
+                    .concat(nullableParams.entrySet().stream(), params.entrySet().stream())
+                    .collect(HashMap::new, (map, item) -> map.put(item.getKey(), item.getValue()), HashMap::putAll);
+            return this;
+        }
+
+        public Builder withError(String message) {
+            var nullableParams = new HashMap<String, Object>();
+            nullableParams.put("errors", FormErrors.global(message));
+            this.params = Stream
+                    .concat(nullableParams.entrySet().stream(), params.entrySet().stream())
+                    .collect(HashMap::new, (map, item) -> map.put(item.getKey(), item.getValue()), HashMap::putAll);
             return this;
         }
 
         public Builder params(Map<String, ?> params) {
             Objects.requireNonNull(params, "params cannot be null");
-            this.params = params;
+            this.params = Stream
+                    .concat(this.params.entrySet().stream(), params.entrySet().stream())
+                    .collect(HashMap::new, (map, item) -> map.put(item.getKey(), item.getValue()), HashMap::putAll);
             return this;
         }
 
@@ -61,9 +78,23 @@ public class JteResponses {
             return this;
         }
 
+        public Builder patch(String element) {
+            Objects.requireNonNull(element, "element cannot be null");
+            ctx.header("datastar-selector", element);
+            return this;
+        }
+
+        public Builder mode(String mode) {
+            Objects.requireNonNull(mode, "element cannot be null");
+            ctx.header("datastar-selector", mode);
+            return this;
+        }
+
         public void render(String path) {
             Objects.requireNonNull(path, "path cannot be null");
             ctx.status(status);
+            ctx.header("datastar-mode", "outer");
+            ctx.header("datastar-use-view-transition", "true");
             ctx.render(path, params);
         }
     }

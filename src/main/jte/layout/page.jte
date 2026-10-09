@@ -1,4 +1,4 @@
-@import Data.Auth.Result.Value.User
+@import Data.Auth.Result.Success.User
 @import gg.jte.Content
 @import java.util.List
 
@@ -13,8 +13,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Lexi">
-        <script src="/public/js/htmx.min.js"></script>
-        <script src="/public/js/hyperscript.min.js"></script>
+        <script type="module" src="/public/js/datastar-rocket.js"></script>
         <link rel="stylesheet" type="text/css" href="/public/css/style.css"/>
         @if(styleSheets != null)
             @for(var style : styleSheets)
@@ -26,11 +25,6 @@
                 <script src="/public/js/${script}"></script>
             @endfor
         @endif
-        <script>
-            htmx.config.defaultSwap = "outerHTML";
-            htmx.config.transitions = true;
-
-        </script>
         <title>Lexi</title>
     </head>
     <body class="container flex flex-row min-h-screen">
@@ -115,7 +109,7 @@
                             <li class="list-item">
                                 <a
                                     class="link"
-                                    hx-get="/auth/logout"
+                                    href="/auth/logout"
                                 >
                                     <svg class="icon" aria-hidden="true">
                                         <use href="#icon-logout"></use>

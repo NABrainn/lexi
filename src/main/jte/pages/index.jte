@@ -1,4 +1,4 @@
-@import Data.Auth.Result.Value.User
+@import Data.Auth.Result.Success.User
 
 @param User user
 
@@ -9,12 +9,7 @@
             id="home-content"
             class="container relative min-w-screen"
         >
-            <button
-                class="button fab"
-                hx-get="/lessons/create"
-                hx-target="#home-content"
-                hx-push-url="true"
-            >+</button>
+            @template.components.button(text = "+", href = "/lessons/create", kind = "fab")
         </div>
     `
 )

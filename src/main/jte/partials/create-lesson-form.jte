@@ -1,6 +1,6 @@
 <form
     class="container flex flex-col  w-3/5 mx-auto my-8 p-5"
-    hx-post="/lessons/create"
+    data-on:submit="@post('/lessons/create', { contentType: 'form' })"
 >
     <fieldset class="container flex flex-col gap-4">
         <legend class="size-3"><h2>Create lesson</h2></legend>
