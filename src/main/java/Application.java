@@ -7,12 +7,14 @@ public class Application {
         var dotenv = Dotenv.load();
         Javalin
                 .create(config -> {
+                    Database.configure(dotenv);
                     Concurrency.configure(config.concurrency);
                     TemplateRendering.configure(dotenv, config);
                     Startup.configure(config.startup);
                     StaticFiles.configure(dotenv, config.staticFiles);
                     Routes.configure(config.routes);
                     Json.configure(config);
+                    Database.migrate();
                 })
                 .start(9000);
     }

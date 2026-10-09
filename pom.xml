@@ -78,6 +78,17 @@
                     <argLine>--enable-preview -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar</argLine>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>13.9.0</version>
+                <configuration>
+                    <url>jdbc:postgresql://localhost:5432/mydb</url>
+                    <user>your_username</user>
+                    <password>your_password</password>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
     <properties>
@@ -96,6 +107,12 @@
             <groupId>io.javalin</groupId>
             <artifactId>javalin</artifactId>
             <version>7.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>13.9.0</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.javalin</groupId>
