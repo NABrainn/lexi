@@ -1,6 +1,6 @@
 package Repository;
 
-import Data.Auth.Result.Success.User;
+import Data.Auth.Record.UserRecord;
 import org.jdbi.v3.core.Jdbi;
 
 import java.util.Optional;
@@ -44,7 +44,7 @@ public class AuthRepository {
         });
     }
 
-    public Optional<User> findUserByLogin(String login) {
+    public Optional<UserRecord> findUserByLogin(String login) {
         return jdbi.withHandle(handle -> {
             var sql = """
             SELECT id, login
@@ -54,11 +54,7 @@ public class AuthRepository {
             return handle
                     .createQuery(sql)
                     .bind("login", login)
-                    .map((rs, _) -> {
-                        var rsId = rs.getInt("id");
-                        var rsLogin = rs.getString("login");
-                        return User.of(rsId, rsLogin);
-                    })
+                    .mapTo(UserRecord.class)
                     .stream()
                     .findFirst();
         });

@@ -1,8 +1,8 @@
 package Configuration;
 
+import Helpers.AbstractRowMapper;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.flywaydb.core.Flyway;
-import org.flywaydb.core.api.MigrationVersion;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.statement.SqlStatements;
 import org.slf4j.Logger;
@@ -19,6 +19,7 @@ public class Database {
         }
         var connection = Jdbi.create(DB_URL);
         connection
+                .registerRowMapper(new AbstractRowMapper())
                 .getConfig(SqlStatements.class)
                 .addExceptionHandler((handler) -> {
                     LOG.error(handler.getSQLState());

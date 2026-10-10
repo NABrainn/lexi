@@ -63,7 +63,7 @@ public class AuthService {
             return Failure.of(error);
         }
 
-        var user = optionalUser.get();
+        var user = optionalUser.get().mapToUser();
         return Success.of(user);
     }
 
