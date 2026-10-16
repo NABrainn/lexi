@@ -18,7 +18,6 @@
         <link href="/public/css/style.css" rel="stylesheet">
         <script type="module" src="/public/js/datastar-rocket.js"></script>
         <script type="module" src="/public/js/beer.min.js"></script>
-        <script type="module" src="/public/js/material-dynamic-colors.min.js"></script>
         @if(styleSheets != null)
             @for(var style : styleSheets)
                 <link rel="stylesheet" type="text/css" href="/public/css/${style}">
@@ -31,10 +30,28 @@
         @endif
         <title>Lexi</title>
     </head>
-    <body class="dark surface-container">
+    <body class="light surface-container">
         @if(user != null)
-            <nav class="max left primary-container">
+            <nav class="m l max left primary-container">
                 !{Function<String, String> isActive = (pathName) -> user.pathName().equals(pathName) ? "active" : "";}
+                <a href="/" class="${isActive.apply("/")}">
+                    <i>home</i>
+                    <span>Lessons</span>
+                </a>
+                <a href="/vocabulary" class="${isActive.apply("/vocabulary")}">
+                    <i>book</i>
+                    <span>Vocabulary</span>
+                </a>
+                <a href="/settings" class="${isActive.apply("/settings")}">
+                    <i>settings</i>
+                    <span>Settings</span>
+                </a>
+                <a href="/lessons/create" class="link bold ${isActive.apply("/lessons/create")}">
+                    <i>wand_stars</i>
+                    <span>Create lesson</span>
+                </a>
+            </nav>
+            <nav class="s bottom primary-container">
                 <a href="/" class="${isActive.apply("/")}">
                     <i>home</i>
                     <span>Lessons</span>
@@ -54,7 +71,9 @@
             </nav>
         @endif
         <main class="responsive">
-            ${content}
+            <div class="page active">
+                ${content}
+            </div>
         </main>
     </body>
 </html>
