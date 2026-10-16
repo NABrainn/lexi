@@ -47,14 +47,12 @@ CREATE TABLE settings (
 CREATE TABLE translations (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user TEXT NOT NULL,
-    translation_kind TEXT NOT NULL
-        CHECK (translation_kind IN ('word', 'phrase')),
+    translation_kind TEXT NOT NULL CHECK (translation_kind IN ('word', 'phrase')),
     source_text TEXT NOT NULL,
     target_text BLOB NOT NULL,
     source_language TEXT NOT NULL,
     target_language TEXT NOT NULL,
-    familiarity INTEGER NOT NULL DEFAULT 1
-        CHECK (familiarity IN (1, 2, 3, 4, 5)),
+    familiarity INTEGER NOT NULL DEFAULT 1 CHECK (familiarity IN (1, 2, 3, 4, 5)),
     created_at TEXT NOT NULL DEFAULT current_timestamp,
     updated_at TEXT NOT NULL DEFAULT current_timestamp,
 

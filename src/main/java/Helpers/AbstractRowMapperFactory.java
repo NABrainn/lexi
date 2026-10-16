@@ -8,7 +8,7 @@ import org.jdbi.v3.core.mapper.reflect.ConstructorMapper;
 import java.lang.reflect.Type;
 import java.util.Optional;
 
-public class AbstractRowMapper implements RowMapperFactory
+public class AbstractRowMapperFactory implements RowMapperFactory
 {
     @Override
     public Optional<RowMapper<?>> build(Type type, ConfigRegistry config)

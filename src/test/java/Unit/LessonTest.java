@@ -1,6 +1,5 @@
 package Unit;
 
-import Configuration.Components;
 import Controller.LessonController;
 import Data.Auth.Result.Success.User;
 import io.javalin.http.Context;
@@ -15,7 +14,7 @@ public class LessonTest {
 
     private final Context ctx = mock(Context.class);
     private final HttpServletRequest request = mock(HttpServletRequest.class);
-    private final LessonController lessonController = Components.lessonController();
+    private final LessonController lessonController = LessonController.of(mock(Service.LessonService.class));
     private final User user = User.of(123, "nabrain");
 
     @Test
