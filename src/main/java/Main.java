@@ -200,7 +200,7 @@ void main() {
             if(isRouteRequest) {
                 var user = Session.getUser(ctx);
                 if(user != null) {
-                    var updatedUser = User.of(user.id(), user.username(), ctx.path());
+                    var updatedUser = user.withPath(ctx.path());
                     Session.updateUser(ctx, updatedUser);
                     Session.refresh(ctx);
                 }
