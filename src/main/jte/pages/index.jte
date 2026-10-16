@@ -5,11 +5,18 @@
 @template.layout.page(
     user = user,
     content = @`
-        <div
-            id="home-content"
-            class="container relative min-w-screen"
-        >
-            @template.components.button(text = "+", href = "/lessons/create", kind = "fab")
+        <div class="grid padding">
+            <article class="round">
+                <div class="padding">
+                    <h5>Title</h5>
+                    <p>
+                        Some description
+                    </p>
+                    <nav>
+                        <button>Read</button>
+                    </nav>
+                </div>
+            </article>
         </div>
     `
 )

@@ -1,6 +1,5 @@
 package Data.Operation.Implementations;
 
-import Data.Auth.Request.AuthRequest;
 import Data.Operation.Interfaces.Command;
 
 public record AuthCommand(String login, String password) implements Command {

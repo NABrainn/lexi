@@ -1,5 +1,6 @@
-@layer reset, base, components, utilities;
-
-@import "reset.css" layer(reset);
-@import "components.css" layer(components);
-@import "utilities.css" layer(utilities);
+@view-transition {
+    navigation: auto;
+}
+body {
+    background-color: var(--surface);
+}

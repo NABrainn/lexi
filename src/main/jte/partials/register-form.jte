@@ -2,67 +2,72 @@
 
 @param String login = null
 @param FormErrors errors = Helpers.FormErrors.empty()
-<div
-    id="register-form"
-    class="form-container container flex flex-col p-5 gap-4 w-1/5 mx-auto mt-8"
->
-    <form
-        class="container flex flex-col"
-        data-on:submit="@post('/auth/register', { contentType: 'form' })"
-    >
-        <fieldset class="container flex flex-col gap-4">
-            <legend class="size-3">
-                <h1>Register</h1>
-            </legend>
 
-            <div class="container flex flex-col gap-2">
-                <label for="login">Login</label>
-                <input
-                    autocomplete="off"
-                    type="text"
-                    name="login"
-                    id="login"
-                    class="input primary"
-                    value="${login}"
-                >
-
-                <div class="error-container">
-                    @if(errors.has("login"))
-                        <span class="error-message">
-                            ${errors.field("login")}
-                        </span>
-                    @endif
+<form id="register-form" class="padding" data-on:submit="@post('/auth/register', { contentType: 'form' })">
+    <input type="hidden" name="pathname" data-bind:pathname />
+    <fieldset>
+        <legend><h4>Register</h4></legend>
+        <nav class="row">
+            @if(errors.has("login"))
+                <div class="field invalid border max">
+                    <label for="login">Login</label>
+                    <input
+                        autocomplete="off"
+                        type="text"
+                        name="login"
+                        id="login"
+                        value="${login}"
+                    />
+                    <output class="invalid">${errors.field("login")}</output>
                 </div>
-            </div>
-
-            <div class="container flex flex-col gap-2">
-                <label for="password">Password</label>
-                <input
-                    autocomplete="new-password"
-                    type="password"
-                    name="password"
-                    id="password"
-                    class="input primary"
-                >
-
-                <div class="error-container">
-                    @if(errors.has("password"))
-                        <span class="error-message">
-                            ${errors.field("password")}
-                        </span>
-                    @elseif(errors.global() != null)
-                        <span class="error-message">
-                            ${errors.global()}
-                        </span>
-                    @endif
+            @else
+                <div class="field border max">
+                    <label for="login">Login</label>
+                    <input
+                        autocomplete="off"
+                        type="text"
+                        name="login"
+                        id="login"
+                        value="${login}"
+                    />
                 </div>
-            </div>
+            @endif
+        </nav>
 
-            @template.components.button(text = "Submit", variant = "primary")
-        </fieldset>
-    </form>
-    <div class="actions">
-        @template.components.button(href= "/login", text = "Login instead", kind = "basic", variant = "primary")
-
-    </div>
-</div>
+        <nav class="row">
+            @if(errors.has("password"))
+                <div class="field invalid border max">
+                    <label for="password">Password</label>
+                    <input
+                        autocomplete="new-password"
+                        type="password"
+                        name="password"
+                        id="password"
+                    >
+                    <output class="invalid">${errors.field("password")}</output>
+                </div>
+            @else
+                <div class="field border max">
+                    <label for="password">Password</label>
+                    <input
+                        autocomplete="new-password"
+                        type="password"
+                        name="password"
+                        id="password"
+                    >
+                </div>
+            @endif
+        </nav>
+        <nav>
+        @if(errors.global() != null)
+            <span class="error-text">${errors.global()}</span>
+        @endif
+        </nav>
+        <nav>
+            <button>Submit</button>
+        </nav>
+        <nav>
+            <a class="link" href="/login">Login instead</a>
+        </nav>
+    </fieldset>
+</form>

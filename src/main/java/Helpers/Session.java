@@ -19,6 +19,13 @@ public class Session {
         session.setAttribute("expiredAt", Instant.now().plusMillis(SESSION_DURATION));
     }
 
+    public static void updateUser(Context ctx, User updatedUser) {
+        var session = getSession(ctx);
+        if(session != null) {
+            session.setAttribute("user", updatedUser);
+        }
+    }
+
     public static User getUser(Context ctx) {
         var session = getSession(ctx);
 

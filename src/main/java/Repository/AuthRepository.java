@@ -14,66 +14,54 @@ public class AuthRepository {
     }
 
     public boolean existsLogin(String login) {
-        return jdbi.withHandle(handle -> {
-            var sql = """
-            SELECT login
-            FROM users
-            WHERE login = :login
-            """;
-            return handle
-                    .createQuery(sql)
-                    .bind("login", login)
-                    .mapTo(String.class)
-                    .stream()
-                    .findFirst()
-                    .isPresent();
-        });
+        return jdbi.withHandle(handle -> handle
+                .createQuery("""
+                SELECT login
+                FROM users
+                WHERE login = :login
+                """)
+                .bind("login", login)
+                .mapTo(String.class)
+                .stream()
+                .findFirst()
+                .isPresent());
     }
 
     public int createUser(String login, String password) {
-        return jdbi.withHandle(handle -> {
-            var sql = """
-            INSERT INTO users (login, password)
-            VALUES (:login, :password)
-            """;
-            return handle
-                    .createUpdate(sql)
-                    .bind("login", login)
-                    .bind("password", password)
-                    .execute();
-        });
+        return jdbi.withHandle(handle -> handle
+                .createUpdate("""
+                INSERT INTO users (login, password)
+                VALUES (:login, :password)
+                """)
+                .bind("login", login)
+                .bind("password", password)
+                .execute());
     }
 
     public Optional<UserRecord> findUserByLogin(String login) {
-        return jdbi.withHandle(handle -> {
-            var sql = """
-            SELECT id, login
-            FROM users
-            WHERE login = :login
-            """;
-            return handle
-                    .createQuery(sql)
-                    .bind("login", login)
-                    .mapTo(UserRecord.class)
-                    .stream()
-                    .findFirst();
-        });
+        return jdbi.withHandle(handle -> handle
+                .createQuery("""
+                SELECT id, login
+                FROM users
+                WHERE login = :login
+                """)
+                .bind("login", login)
+                .mapTo(UserRecord.class)
+                .stream()
+                .findFirst());
     }
 
     public Optional<String> findUserPasswordHash(String login) {
-        return jdbi.withHandle(handle -> {
-            var sql = """
-            SELECT password
-            FROM users
-            WHERE login = :login
-            """;
-            return handle
-                    .createQuery(sql)
-                    .bind("login", login)
-                    .mapTo(String.class)
-                    .stream()
-                    .findFirst();
-        });
+        return jdbi.withHandle(handle -> handle
+                .createQuery("""
+                SELECT password
+                FROM users
+                WHERE login = :login
+                """)
+                .bind("login", login)
+                .mapTo(String.class)
+                .stream()
+                .findFirst());
     }
 
     public static AuthRepository of(Jdbi jdbi) {

@@ -14,6 +14,6 @@ public record UserRecord(
     }
 
     public User mapToUser() {
-        return User.of(id, username);
+        return User.of(id, username, "");
     }
 }

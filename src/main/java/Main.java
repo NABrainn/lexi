@@ -1,6 +1,7 @@
 import Controller.AuthController;
 import Controller.IndexController;
 import Controller.LessonController;
+import Data.Auth.Result.Success.User;
 import Helpers.*;
 import Repository.AuthRepository;
 import Repository.LessonRepository;
@@ -186,13 +187,25 @@ void main() {
         // Session and authentication filters
         var protectedPaths = List.of("/");
         protectedPaths.forEach(path -> config.routes.before(path, ctx -> {
-            Session.refresh(ctx);
             if (!Session.isAuthenticated(ctx)) {
                 ctx.redirect("/login");
             }
         }));
 
         // Routes
+        config.routes.beforeMatched(ctx -> {
+            var secFetchDestHeaderValue = ctx.header("Sec-Fetch-Dest");
+            var isDatastarRequest = ctx.header("Datastar-Request");
+            var isRouteRequest = (secFetchDestHeaderValue != null && secFetchDestHeaderValue.equals("document")) || (isDatastarRequest != null && isDatastarRequest.equals("true"));
+            if(isRouteRequest) {
+                var user = Session.getUser(ctx);
+                if(user != null) {
+                    var updatedUser = User.of(user.id(), user.username(), ctx.path());
+                    Session.updateUser(ctx, updatedUser);
+                    Session.refresh(ctx);
+                }
+            }
+        });
         config.routes.get("/error-500", ctx -> JteResponses.with(ctx).render("pages/error-500.jte"));
         config.routes.apiBuilder(() -> {
             path("/auth", () -> {
