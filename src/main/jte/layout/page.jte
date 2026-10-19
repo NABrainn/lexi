@@ -16,8 +16,8 @@
         <meta name="description" content="Lexi">
         <link href="/public/css/beer.min.css" rel="stylesheet">
         <link href="/public/css/style.css" rel="stylesheet">
-        <script type="module" src="/public/js/datastar-rocket.js"></script>
         <script type="module" src="/public/js/beer.min.js"></script>
+        <script type="module" src="/public/js/datastar-rocket.js"></script>
         @if(styleSheets != null)
             @for(var style : styleSheets)
                 <link rel="stylesheet" type="text/css" href="/public/css/${style}">
@@ -31,7 +31,7 @@
         <title>Lexi</title>
     </head>
     <body class="light surface-container">
-        @if(user != null)
+    @if(user != null)
             <nav class="m l max left primary-container">
                 !{Function<String, String> isActive = (pathName) -> user.pathName().equals(pathName) ? "active" : "";}
                 <a href="/" class="${isActive.apply("/")}">
@@ -48,25 +48,21 @@
                 </a>
                 <a href="/lessons/create" class="link bold ${isActive.apply("/lessons/create")}">
                     <i>wand_stars</i>
-                    <span>Create lesson</span>
+                    <span>New lesson</span>
                 </a>
             </nav>
             <nav class="s bottom primary-container">
                 <a href="/" class="${isActive.apply("/")}">
                     <i>home</i>
-                    <span>Lessons</span>
                 </a>
                 <a href="/vocabulary" class="${isActive.apply("/vocabulary")}">
                     <i>book</i>
-                    <span>Vocabulary</span>
                 </a>
                 <a href="/settings" class="${isActive.apply("/settings")}">
                     <i>settings</i>
-                    <span>Settings</span>
                 </a>
                 <a href="/lessons/create" class="link bold ${isActive.apply("/lessons/create")}">
                     <i>wand_stars</i>
-                    <span>Create lesson</span>
                 </a>
             </nav>
         @endif
