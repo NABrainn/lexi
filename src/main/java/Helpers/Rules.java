@@ -18,6 +18,13 @@ public final class Rules {
         return Objects::nonNull;
     }
 
+    public static Function1<Object, Boolean> requiredWhen(boolean condition) {
+        if (condition) {
+            return Objects::nonNull;
+        }
+        return _ -> true;
+    }
+
     public static Function1<String, Boolean> minLength(int minimum) {
         return value -> value == null || value.length() >= minimum;
     }
