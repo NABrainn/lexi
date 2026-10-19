@@ -65,6 +65,15 @@ public class JteResponses {
             return this;
         }
 
+        public Builder withError(FormErrors errors) {
+            var nullableParams = new HashMap<String, Object>();
+            nullableParams.put("errors", errors);
+            this.params = Stream
+                    .concat(nullableParams.entrySet().stream(), params.entrySet().stream())
+                    .collect(HashMap::new, (map, item) -> map.put(item.getKey(), item.getValue()), HashMap::putAll);
+            return this;
+        }
+
         public Builder params(Map<String, ?> params) {
             Objects.requireNonNull(params, "params cannot be null");
             this.params = Stream
