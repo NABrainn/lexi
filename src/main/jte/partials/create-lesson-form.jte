@@ -1,5 +1,5 @@
 <form class="padding" data-on:submit="@post('/lessons/create', { contentType: 'form' })">
-    <fieldset data-signals:active-tab="'file'" class="surface-container-highest">
+    <fieldset data-signals:active-tab="'url'" class="surface-container-highest">
         <legend>
             <h4>Create lesson</h4>
         </legend>
@@ -57,7 +57,7 @@
                 }"
             >
                 <input
-                    type="text"
+                    type="url"
                     name="url"
                     id="url"
                 >

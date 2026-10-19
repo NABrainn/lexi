@@ -2,7 +2,5 @@
 
 @template.layout.page(
     user = user,
-    content = @`
-        @template.partials.create-lesson-form()
-    `
+    content = @`@template.partials.create-lesson-form()`
 )
