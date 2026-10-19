@@ -5,7 +5,7 @@
 
 <form id="register-form" class="padding" data-on:submit="@post('/auth/register', { contentType: 'form' })">
     <input type="hidden" name="pathname" data-bind:pathname />
-    <fieldset>
+    <fieldset class="surface-container-highest">
         <legend><h4>Register</h4></legend>
         <nav class="row">
             @if(errors.has("login"))

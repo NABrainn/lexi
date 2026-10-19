@@ -5,7 +5,7 @@
 
 <form data-signals:pathname="document.location.pathname" id="login-form" class="padding" data-on:submit="@post('/auth/login', { contentType: 'form' })">
     <input type="hidden" name="pathname" data-bind:pathname />
-    <fieldset>
+    <fieldset class="surface-container-highest">
         <legend><h4>Sign in</h4></legend>
         <nav class="row">
             @if(errors.has("login"))
