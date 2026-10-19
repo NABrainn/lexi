@@ -9,8 +9,6 @@ import Service.LessonService;
 import io.javalin.http.Context;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
-
 public class LessonController {
 
     private final LessonService lessonService;
@@ -20,42 +18,31 @@ public class LessonController {
     }
 
     public void createLessonForm(@NotNull Context ctx) {
-        switch (Headers.isHxRequest(ctx)) {
-            case true ->
-                    JteResponses.with(ctx)
-                        .render("partials/create-lesson-form.jte");
-            case false ->
-                    JteResponses.with(ctx)
-                        .withUser()
-                        .render("pages/create-lesson-page.jte");
-        }
+        JteResponses.with(ctx)
+            .withUser()
+            .render("pages/create-lesson-page.jte");
     }
 
     public void createLesson(Context ctx) {
         Requests.requireHx(ctx);
-        var title = ctx.formParamAsClass("title", String.class)
-                .check(Rules.required(), "Title is required");
-        var contentUrl = ctx.formParamAsClass("contentUrl", String.class)
+        var url = ctx.formParamAsClass("url", String.class)
                 .check(Rules.url(), "Content URL must be correctly formatted");
-        var content = ctx.formParamAsClass("content", String.class);
-        var form = Form.of(title, contentUrl, content);
+
+        var title = ctx.formParamAsClass("title", String.class)
+                .check(Rules.requiredWhen(url.get().isBlank()), "Title is required");
+        var form = Form.of(title, url);
 
         switch (Forms.isValid(form)) {
             case true -> {
                 var validTitle = title.get();
-                var validContentUrl = contentUrl.get();
-                var validContent = content.get();
-                var createLessonCommand = CreateLessonCommand.of(validTitle, validContentUrl, validContent);
+                var validContentUrl = url.get();
+                var createLessonCommand = CreateLessonCommand.of(validTitle, validContentUrl);
                 var result = lessonService.createLesson(createLessonCommand);
 
                 switch (result) {
                     case Failure(CreateLessonError(var message)) -> {
-                        var errors = FormErrors.global(message);
-                        var params = Map.of(
-                                "errors", errors
-                        );
                         JteResponses.with(ctx)
-                                .params(params)
+                                .withError(message)
                                 .status(400)
                                 .render("partials/create-lesson-form.jte");
                     }
@@ -67,7 +54,7 @@ public class LessonController {
                 }
             }
             case false -> JteResponses.with(ctx)
-                    .withErrors(title, contentUrl, content)
+                    .withErrors(title, url)
                     .status(400)
                     .render("partials/create-lesson-form.jte");
         }
